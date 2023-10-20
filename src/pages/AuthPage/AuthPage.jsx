@@ -1,17 +1,13 @@
 import { useState } from 'react';
-import SignUpForm from '../../components/SignUpForm/SignUpForm';
 import LoginForm from '../../components/LoginForm/LoginForm';
 
 export default function AuthPage({ setUser }) {
-  const [showSignUp, setShowSignUp] = useState(false);
 
   return (
     <main className='flex items-center'>
-      { showSignUp ?
-          <SignUpForm setUser={setUser} setShowSignUp={setShowSignUp} />
-          :
-          <LoginForm setUser={setUser} setShowSignUp={setShowSignUp} />
-      }
+      <div className="grid mr-auto max-w-screen-xl px-4 py-8 mx-auto items-center lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:z-10">
+        <LoginForm setUser={setUser} />
+      </div>
     </main>
   );
 }
