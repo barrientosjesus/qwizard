@@ -11,7 +11,7 @@ export default function App() {
   const [user, setUser] = useState(getUser());
 
   return (
-    <main className="App bg-base-100 container h-full flex flex-col items-center -z-10">
+    <main className="App bg-base-100 container h-full flex flex-col items-center">
       <NavBar user={user} setUser={setUser} />
       <Routes>
         {/* Route components in here */}
