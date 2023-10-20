@@ -3,10 +3,13 @@ import * as usersService from '../../utilities/users-service';
 
 export default function LoginForm({ setUser }) {
   const [credentials, setCredentials] = useState({
+    name: '',
     email: '',
-    password: ''
+    password: '',
+    confirm: ''
   });
   const [error, setError] = useState('');
+  const [showSignUp, setShowSignUp] = useState(null);
 
   function handleChange(evt) {
     setCredentials({ ...credentials, [evt.target.name]: evt.target.value });
@@ -14,31 +17,57 @@ export default function LoginForm({ setUser }) {
   }
 
   async function handleSubmit(evt) {
-    // Prevent form from being submitted to the server
     evt.preventDefault();
     try {
-      // The promise returned by the signUp service method 
-      // will resolve to the user object included in the
-      // payload of the JSON Web Token (JWT)
-      const user = await usersService.login(credentials);
-      setUser(user);
+      if (evt.target.attributes.name.value === 'login') {
+        const user = await usersService.login({ email: credentials.email, password: credentials.password });
+        setUser(user);
+      } else if (evt.target.attributes.name.value === 'signup') {
+        const { name, email, password } = credentials;
+        const formData = { name, email, password };
+        console.log(formData)
+        const user = await usersService.signUp(formData);
+        setUser(user);
+      }
     } catch {
       setError('Log In Failed - Try Again');
     }
   }
 
   return (
-    <div>
-      <div className="form-container">
-        <form autoComplete="off" onSubmit={handleSubmit}>
-          <label>Email</label>
-          <input type="text" name="email" value={credentials.email} onChange={handleChange} required />
-          <label>Password</label>
-          <input type="password" name="password" value={credentials.password} onChange={handleChange} required />
-          <button type="submit">LOG IN</button>
-        </form>
+    <>
+      <div className="grid mr-auto max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:z-10">
+        <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
+          <img src="https://i.imgur.com/NqXoaX6.png" alt="mockup" />
+        </div>
+        <div className="lg:col-span-7 z-10 flex flex-col items-center lg:place-self-center w-72 bg-violet-500 shadow-lg lg:h-full lg:w-3/5 lg:items-center lg:justify-center rounded-lg">
+          <div className="form-container">
+            <form autoComplete="off" onSubmit={handleSubmit} name={showSignUp ? 'signup' : 'login'} className='flex flex-col items-center p-10'>
+              <h2 className='font-bold text-white text-4xl m-3'>{showSignUp ? 'Sign Up' : 'Log In'}</h2>
+              {showSignUp &&
+                <>
+                  <label className='text-white'>Name</label>
+                  <input type="text" name="name" className='input input-bordered input-secondary w-full max-w-xs' value={credentials.name} onChange={handleChange} required />
+                </>
+              }
+              <label className='text-white'>Email</label>
+              <input type="text" name="email" className='input input-bordered input-secondary w-full max-w-xs' value={credentials.email} onChange={handleChange} required />
+              <label className='text-white'>Password</label>
+              <input type="password" name="password" className='input input-bordered input-secondary w-full max-w-xs focus:border-none' value={credentials.password} onChange={handleChange} required />
+              {showSignUp &&
+                <>
+                  <label className='text-white'>Confirm</label>
+                  <input type="password" name="confirm" className='input input-bordered input-secondary w-full max-w-xs focus:border-none' value={credentials.confirm} onChange={handleChange} required />
+                </>
+              }
+              <button type="submit" className='btn btn-secondary m-4 w-full'>{showSignUp ? 'Sign Up' : 'Log In'}</button>
+              <p className="error-message">&nbsp;{error}</p>
+            </form>
+          </div>
+          <hr className='w-1/2 -mt-8 mb-5 text-white' />
+          <button className='btn btn-neutral mb-8' onClick={() => setShowSignUp(!showSignUp)}>{showSignUp ? 'Log In' : 'Sign Up'}</button>
+        </div>
       </div>
-      <p className="error-message">&nbsp;{error}</p>
-    </div>
+    </>
   );
 }
