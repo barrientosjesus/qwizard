@@ -16,29 +16,23 @@ export default function NewQuizPage() {
         question: "",
         answers: [
             {
-                answer: '',
+                text: '',
                 isCorrect: false
             },
             {
-                answer: '',
+                text: '',
                 isCorrect: false
             },
             {
-                answer: '',
+                text: '',
                 isCorrect: false
             },
             {
-                answer: '',
+                text: '',
                 isCorrect: false
             }
         ]
     });
-
-    async function handleCreateQuiz(evt) {
-        evt.preventDefault();
-        console.log(quizData);
-        alert('creating quiz!');
-    }
 
     function handleCreateQuestion(evt) {
         evt.preventDefault();
@@ -50,25 +44,32 @@ export default function NewQuizPage() {
             question: "",
             answers: [
                 {
-                    answer: "",
+                    text: "",
                     isCorrect: false
                 },
                 {
-                    answer: "",
+                    text: "",
                     isCorrect: false
                 },
                 {
-                    answer: "",
+                    text: "",
                     isCorrect: false
                 },
                 {
-                    answer: "",
+                    text: "",
                     isCorrect: false
                 }
             ]
         });
 
         console.log(quizData);
+    }
+
+    async function handleCreateQuiz(evt) {
+        evt.preventDefault();
+        console.log(quizData)
+        const quiz = await createQuiz(quizData);
+        console.log(quiz)
     }
 
     function handleQuizChange(evt) {
@@ -84,7 +85,7 @@ export default function NewQuizPage() {
             } else {
                 const answerIndex = parseInt(name.split("-")[1], 10);
                 const updatedAnswers = [...questionData.answers];
-                updatedAnswers[answerIndex].answer = value;
+                updatedAnswers[answerIndex].text = value;
                 setQuestionData({ ...questionData, answers: updatedAnswers });
             }
         } else if (type === "radio") {
@@ -97,7 +98,6 @@ export default function NewQuizPage() {
 
             setQuestionData({ ...questionData, answers: updatedAnswers });
         }
-        console.log(questionData);
     }
 
     return (

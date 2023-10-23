@@ -17,10 +17,10 @@ export default function CreateQuestionForm({ questionData, handleQuestionChange,
                         <div className="max-w-full relative">
                             <input
                                 type="text"
-                                name={`answer-${index}`}
+                                name={`text-${index}`}
                                 placeholder="Type an answer"
                                 className="input input-bordered border-white text-white input-secondary max-w-full col-span-10 bg-violet-500 placeholder:text-slate-300/50"
-                                value={a.answer}
+                                value={a.text}
                                 onChange={(evt) => handleQuestionChange(evt)}
                                 required
                             />
