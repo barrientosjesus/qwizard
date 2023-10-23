@@ -1,7 +1,7 @@
 export default function CreateQuestionForm({ questionData, handleQuestionChange, handleCreateQuestion }) {
 
     return (
-        <section className="col-start-5 col-end-13 grid grid-cols-12 mx-2 my-3">
+        <section className="col-start-5 col-end-13 grid grid-cols-12 mx-2 my-3 max-h-max">
             <form onSubmit={handleCreateQuestion} className="col-span-12 max-h-max bg-violet-500 flex flex-col items-start rounded-md">
                 <input
                     type="text"

@@ -2,6 +2,7 @@ const Quiz = require('../../models/quiz');
 
 module.exports = {
     create,
+    getAll
 };
 
 async function create(req, res) {
@@ -13,4 +14,9 @@ async function create(req, res) {
         res.status(400).json(err);
         console.error(err);
     }
+}
+
+async function getAll(req, res) {
+    const quizzes = await Quiz.find({});
+    res.json(quizzes);
 }

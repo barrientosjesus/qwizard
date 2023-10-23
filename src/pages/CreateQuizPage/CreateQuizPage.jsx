@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { createQuiz } from "../../utilities/quiz-api";
 import CreateQuizForm from "../../components/CreateQuizForm/CreateQuizForm";
-import CreateQuestionForm from "../../components/CreateQuestionForm/CreateQuestionForm";
 import QuestionFormList from "../../components/QuestionFormList/QuestionFormList";
+import CreateQuestionForm from "../../components/CreateQuestionForm/CreateQuestionForm";
 
 export default function NewQuizPage() {
     const [quizData, setQuizData] = useState({

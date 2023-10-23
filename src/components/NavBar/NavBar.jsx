@@ -31,7 +31,7 @@ export default function NavBar({ user, setUser }) {
       </div>
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
-          <li><Link className='font-bold text-white hover:text-gray-300'>Qwizzes</Link></li>
+          <li><Link to="/quizzes" className='font-bold text-white hover:text-gray-300'>Qwizzes</Link></li>
         </ul>
       </div>
       {user &&
