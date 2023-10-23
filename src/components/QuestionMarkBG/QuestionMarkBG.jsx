@@ -3,7 +3,7 @@ import "./QuestionMarkBG.css"
 export default function QuestionMarkBG() {
 
     return (
-        <div className="area" >
+        <div className="area QuestionMarkBG" >
             <ul className="circles">
                 <li className="font-bold qm-bg text-9xl">?</li>
                 <li className="font-bold qm-bg text-9xl">?</li>
