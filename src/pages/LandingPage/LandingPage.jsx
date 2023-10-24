@@ -4,7 +4,7 @@ export default function LandingPage({ user }) {
     return (
 
         <div className="grid mr-auto max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12 lg:z-10">
-            <div className="hidden lg:mt-0 lg:col-span-5 lg:flex">
+            <div className="hidden lg:mt-0 lg:col-span-5 lg:grid lg:items-center">
                 <img src="https://i.imgur.com/NqXoaX6.png" alt="mockup" />
             </div>
             <div className="lg:col-span-7 z-10 flex flex-col items-center lg:block lg:place-self-center">

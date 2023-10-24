@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import { getUser } from '../../utilities/users-service';
 import AuthPage from '../AuthPage/AuthPage';
-import NewOrderPage from '../NewOrderPage/NewOrderPage';
 import QuizzesPage from '../QuizzesPage/QuizzesPage';
 import NavBar from '../../components/NavBar/NavBar';
 import LandingPage from '../LandingPage/LandingPage';
 import QuestionMarkBG from "../../components/QuestionMarkBG/QuestionMarkBG";
 import CreateQuizPage from '../CreateQuizPage/CreateQuizPage';
+import LobbyPage from '../LobbyPage/LobbyPage';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
@@ -20,10 +20,11 @@ export default function App() {
         <Routes>
           {/* Route components in here */}
           <Route path="/" element={<LandingPage user={user} />} />
-          <Route path="/orders/new" element={<NewOrderPage />} />
-          <Route path="/quizzes" element={<QuizzesPage />} />
+          <Route path="/quizzes" element={<QuizzesPage user={user} />} />
           <Route path="/login" element={<AuthPage setUser={setUser} />} />
           <Route path="/quizzes/create" element={<CreateQuizPage />} />
+          <Route path="/lobby" element={<LobbyPage />} />
+          <Route path="/*" element={<Navigate to="/" />} />
         </Routes>
       </section>
     </main>

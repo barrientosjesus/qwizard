@@ -41,6 +41,8 @@ const quizSchema = new Schema({
         ref: 'User',
         required: true
     }
+}, {
+    timestamps: true
 });
 
 module.exports = mongoose.model('Quiz', quizSchema);

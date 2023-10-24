@@ -8,7 +8,7 @@ module.exports = {
 async function create(req, res) {
     try {
         req.body.user = req.user._id;
-        const quiz = await Quiz.create(req.body);
+        const quiz = (await Quiz.create(req.body));
         res.json(quiz);
     } catch (err) {
         res.status(400).json(err);
@@ -17,6 +17,6 @@ async function create(req, res) {
 }
 
 async function getAll(req, res) {
-    const quizzes = await Quiz.find({});
+    const quizzes = await Quiz.find({}).populate('user', 'name');
     res.json(quizzes);
 }

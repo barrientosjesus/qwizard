@@ -3,7 +3,7 @@ import QuizCard from "../../components/QuizCard/QuizCard";
 import QuizFilter from "../../components/QuizFilter/QuizFilter";
 import { getAll } from "../../utilities/quiz-api";
 
-export default function OrderHistoryPage() {
+export default function OrderHistoryPage({ user }) {
   const [quizzes, setQuizzes] = useState([]);
 
   useEffect(function () {
@@ -20,7 +20,7 @@ export default function OrderHistoryPage() {
       <QuizFilter />
       <section className="col-span-9 rounded-md m-3 bg-violet-500">
         {quizzes.map((quiz, index) => (
-          <QuizCard quiz={quiz} key={index} />
+          <QuizCard quiz={quiz} key={index} user={user} />
         ))}
       </section>
     </main>
