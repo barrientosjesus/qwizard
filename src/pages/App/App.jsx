@@ -23,7 +23,7 @@ export default function App() {
           <Route path="/quizzes" element={<QuizzesPage user={user} />} />
           <Route path="/login" element={<AuthPage setUser={setUser} />} />
           <Route path="/quizzes/create" element={<CreateQuizPage />} />
-          <Route path="/lobby" element={<LobbyPage />} />
+          <Route path="/lobby/:quizID" element={<LobbyPage />} />
           <Route path="/*" element={<Navigate to="/" />} />
         </Routes>
       </section>

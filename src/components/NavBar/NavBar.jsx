@@ -14,14 +14,8 @@ export default function NavBar({ user, setUser }) {
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
         </label>
         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
-          <li><Link>Item 1</Link></li>
-          <li>
-            <Link>Parent</Link>
-            <ul className="p-2">
-              <li><Link>Submenu 1</Link></li>
-              <li><Link>Submenu 2</Link></li>
-            </ul>
-          </li>
+          <li><Link to="/quizzes">Quizzes</Link></li>
+          <li><Link>Parent</Link></li>
           <li><Link>Item 3</Link></li>
         </ul>
       </div>
@@ -42,7 +36,7 @@ export default function NavBar({ user, setUser }) {
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">
-                <img src={`https://api.dicebear.com/7.x/bottts-neutral/svg?seed=${user.name}&radius=50`} alt="avatar" />
+                <img src={`https://api.dicebear.com/7.x/bottts/svg?seed=${user.name}&radius=50&scale=100`} alt="avatar" />
               </div>
             </label>
             <ul tabIndex={0} className="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52">
