@@ -8,3 +8,7 @@ export async function createQuiz(quizData) {
 export async function getAll() {
     return sendRequest(BASE_URL);
 }
+
+export async function getOne(quizID) {
+    return sendRequest(`${BASE_URL}/${quizID}`);
+}

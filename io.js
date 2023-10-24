@@ -19,7 +19,7 @@ function init(http) {
       allowedHeaders: ["qwizard"],
     }
   });
-  
+
   io.on("connection", function (socket) {
     console.log(`Socket ${socket.id} connected`);
 
@@ -29,7 +29,20 @@ function init(http) {
     });
 
     socket.on('sendMessage', (message) => {
-      io.emit('message', message);
+      socket.to(socket.room).emit('message', message);
+    });
+
+    socket.on('joinRoom', (room) => {
+      if (socket.room) {
+        socket.leave(socket.room);
+      }
+
+      socket.room = room;
+      socket.join(room);
+    });
+
+    socket.on('test_message', (room) => {
+
     });
   });
 }

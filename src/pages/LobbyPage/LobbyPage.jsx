@@ -1,5 +1,6 @@
-import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { getOne } from "../../utilities/quiz-api";
 // import * as socket from "../../utilities/socket";
 import io from 'socket.io-client';
 
@@ -16,8 +17,21 @@ export default function LobbyPage() {
     const [question, setQuestion] = useState('');
     const [answer, setAnswer] = useState('');
     const [answers, setAnswers] = useState([]);
+    const [room, setRoom] = useState('');
+    const [quiz, setQuiz] = useState({});
+    const quizID = useParams().quizID;
+    const navigate = useNavigate();
 
     useEffect(() => {
+        async function getQuiz() {
+            const fetchedQuiz = await getOne(quizID);
+            if (!fetchedQuiz) {
+                navigate('/quizzes');
+            }
+            setQuiz(fetchedQuiz);
+        }
+        getQuiz();
+
         socket.on('message', (message) => {
             setAnswers((answers) => [...answers, message]);
         });
@@ -32,11 +46,20 @@ export default function LobbyPage() {
         }
     };
 
+    function handleJoin(evt) {
+        evt.preventDefault();
+        socket.emit('joinRoom', room);
+    }
+
     return (
         <div>
+            <form onSubmit={handleJoin}>
+                <input type="text" value={room} placeholder="ROOM CODE" onChange={(event) => setRoom(event.target.value)} />
+                <button type="submit">Join</button>
+            </form>
             <form onSubmit={handleSubmit}>
-                <input type="text" value={question} placeholder="Your question" onChange={(event) => setQuestion(event.target.value)} />
-                <input type="text" value={answer} placeholder="Your answer" onChange={(event) => setAnswer(event.target.value)} />
+                <input type="text" value={question} placeholder="test question" onChange={(event) => setQuestion(event.target.value)} />
+                <input type="text" value={answer} placeholder="test answer" onChange={(event) => setAnswer(event.target.value)} />
                 <button type="submit">Send</button>
             </form>
             <ul>

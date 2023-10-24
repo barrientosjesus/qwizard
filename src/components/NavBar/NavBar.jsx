@@ -1,10 +1,20 @@
-import { Link } from 'react-router-dom';
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import * as userService from '../../utilities/users-service';
 
 export default function NavBar({ user, setUser }) {
+  const [roomID, setRoomID] = useState('');
+  const navigate = useNavigate();
+
   function handleLogOut() {
     userService.logOut();
     setUser(null);
+  }
+
+  function handleEnter(evt) {
+    if(evt.key !== 'Enter') return;
+    navigate(`/lobby/${roomID}`);
+    setRoomID('')
   }
 
   return (
@@ -31,7 +41,7 @@ export default function NavBar({ user, setUser }) {
       {user &&
         <div className="flex-none gap-2">
           <div className="hidden lg:form-control">
-            <input type="text" placeholder="JOIN CODE" className="input input-bordered w-24 md:w-auto" />
+            <input type="text" placeholder="JOIN CODE" value={roomID} onChange={(evt) => setRoomID(evt.target.value)} onKeyDown={handleEnter} className="input input-bordered w-24 md:w-auto placeholder:text-slate-500/40" />
           </div>
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">

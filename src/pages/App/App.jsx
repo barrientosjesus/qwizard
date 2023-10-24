@@ -18,12 +18,15 @@ export default function App() {
       <section className="bg-white lg:grow lg:flex w-full -z-0">
         <QuestionMarkBG />
         <Routes>
-          {/* Route components in here */}
           <Route path="/" element={<LandingPage user={user} />} />
           <Route path="/quizzes" element={<QuizzesPage user={user} />} />
           <Route path="/login" element={<AuthPage setUser={setUser} />} />
-          <Route path="/quizzes/create" element={<CreateQuizPage />} />
-          <Route path="/lobby/:quizID" element={<LobbyPage />} />
+          {user && (
+            <>
+              <Route path="/quizzes/create" element={<CreateQuizPage />} />
+              <Route path="/lobby/:quizID" element={<LobbyPage />} />
+            </>
+          )}
           <Route path="/*" element={<Navigate to="/" />} />
         </Routes>
       </section>

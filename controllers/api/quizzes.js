@@ -1,8 +1,10 @@
+const { resolvePath } = require('react-router-dom');
 const Quiz = require('../../models/quiz');
 
 module.exports = {
     create,
-    getAll
+    getAll,
+    getOne
 };
 
 async function create(req, res) {
@@ -19,4 +21,14 @@ async function create(req, res) {
 async function getAll(req, res) {
     const quizzes = await Quiz.find({}).populate('user', 'name');
     res.json(quizzes);
+}
+
+async function getOne(req, res) {
+    try {
+        const quiz = await Quiz.findOne({ _id: req.params.id });
+        res.json(quiz);
+    } catch (err) {
+        console.error(err)
+        res.json(null)
+    }
 }
