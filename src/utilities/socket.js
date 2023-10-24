@@ -1,7 +1,8 @@
-import { getToken } from './users-service';
+// import { getToken } from './users-service';
+// import { getIo } from '../../io';
 
 // const socket = window.io();
-let setQuiz = null;
+// let setQuiz = null;
 
 // export function testsocket() {
 //     socket.on('connect', () => {
