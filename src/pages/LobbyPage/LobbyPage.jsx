@@ -4,7 +4,7 @@ import { getOne } from "../../utilities/quiz-api";
 // import * as socket from "../../utilities/socket";
 import io from 'socket.io-client';
 
-const ENDPOINT = "http://localhost:3030";
+const ENDPOINT = "http://localhost:3001";
 let socket, selectedChatCompare;
 
 socket = io(ENDPOINT, {
@@ -53,6 +53,7 @@ export default function LobbyPage() {
 
     return (
         <div>
+            <h2>{quiz.title}</h2>
             <form onSubmit={handleJoin}>
                 <input type="text" value={room} placeholder="ROOM CODE" onChange={(event) => setRoom(event.target.value)} />
                 <button type="submit">Join</button>

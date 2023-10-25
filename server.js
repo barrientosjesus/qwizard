@@ -27,8 +27,6 @@ const port = process.env.PORT || 3001;
 const httpServer = createServer(app);
 require('./io').init(httpServer)
 
-httpServer.listen(3030);
-
 // Put API routes here, before the "catch all" route
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/quizzes', require('./routes/api/quizzes'));
@@ -39,6 +37,9 @@ app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-app.listen(port, function () {
+httpServer.listen(port, function (){
   console.log(`Express app running on port ${port}`);
 });
+// app.listen(port, function () {
+//   console.log(`Express app running on port ${port}`);
+// });
