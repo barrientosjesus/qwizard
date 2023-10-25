@@ -17,7 +17,7 @@ export default function QuizCard({ quiz, user, handleDeleteQuiz }) {
             <div className="card-body grid auto-rows-auto">
                 <section className="grid auto-rows-auto">
                     <h2 className="card-title"><em>{quiz.title}</em></h2>
-                    <small><em>Created by {quiz.user.name}</em></small>
+                    <small><em>Created by {quiz.user.name} on {quiz.formattedDate}</em></small>
                 </section>
                 <section className="grid auto-rows-auto">
                     <small>Average Score: 72%</small>
@@ -30,7 +30,7 @@ export default function QuizCard({ quiz, user, handleDeleteQuiz }) {
                 </section>
                 <div className="card-actions justify-end">
                     <button onClick={handlePlayClick} className="btn btn-primary">Play Now!</button>
-                    {user && user.id === quiz.user.id &&
+                    {user && user._id === quiz.user._id &&
                         <button onClick={() => handleDeleteQuiz(quiz._id)} className="btn btn-error">Delete</button>
                     }
                 </div>

@@ -1,6 +1,5 @@
 const jwt = require('jsonwebtoken');
-const Quiz = require('./models/quiz');
-const { Server } = require('socket.io');
+const Score = require('./models/score');
 
 let io;
 
@@ -12,13 +11,7 @@ module.exports = {
 };
 
 function init(http) {
-  io = new Server(http, {
-    pingTimeout: 60000,
-    cors: {
-      origin: "http://localhost:3000",
-      allowedHeaders: ["qwizard"],
-    }
-  });
+  io = require('socket.io')(http);
 
   io.on("connection", function (socket) {
     console.log(`Socket ${socket.id} connected`);

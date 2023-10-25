@@ -24,8 +24,8 @@ app.use(require('./config/checkToken'));
 
 const port = process.env.PORT || 3001;
 
-const httpServer = createServer(app);
-require('./io').init(httpServer)
+const http = require('http').Server(app);
+require('./io').init(http);
 
 // Put API routes here, before the "catch all" route
 app.use('/api/users', require('./routes/api/users'));
@@ -37,9 +37,6 @@ app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-httpServer.listen(port, function (){
+http.listen(port, function (){
   console.log(`Express app running on port ${port}`);
 });
-// app.listen(port, function () {
-//   console.log(`Express app running on port ${port}`);
-// });

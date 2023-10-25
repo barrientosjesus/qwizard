@@ -15,7 +15,7 @@ export default function App() {
   return (
     <main className="App bg-base-100 container h-full flex flex-col items-center">
       <NavBar user={user} setUser={setUser} />
-      <section className="bg-white lg:grow lg:flex w-full -z-0">
+      <section className="bg-white lg:grow lg:flex w-full h-full -z-0">
         <QuestionMarkBG />
         <Routes>
           <Route path="/" element={<LandingPage user={user} />} />

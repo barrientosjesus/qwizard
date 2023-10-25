@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import QuizCard from "../../components/QuizCard/QuizCard";
 import QuizFilter from "../../components/QuizFilter/QuizFilter";
 import { getAll, deleteOne } from "../../utilities/quiz-api";
@@ -14,6 +14,7 @@ export default function QuizzesPage({ user }) {
       setIsLoading(false);
     }
     getQuizzes();
+    console.log('test')
   }, []);
 
   async function handleDeleteQuiz(quizId) {

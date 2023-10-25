@@ -42,7 +42,14 @@ const quizSchema = new Schema({
         required: true
     }
 }, {
-    timestamps: true
+    timestamps: true,
+    toJSON: { virtuals: true }
+});
+
+quizSchema.virtual('formattedDate').get(function () {
+    const date = this.createdAt;
+    const formattedDate = `${date.getMonth() + 1}-${date.getDate()}-${date.getFullYear()}`;
+    return formattedDate;
 });
 
 module.exports = mongoose.model('Quiz', quizSchema);

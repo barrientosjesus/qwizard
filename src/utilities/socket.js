@@ -1,18 +1,27 @@
-import io from 'socket.io-client';
+const socket = window.io();
+let setGame = null;
 
-let socket;
-let ENDPOINT;
-
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-    ENDPOINT = 'http://localhost:3001';
-} else {
-    ENDPOINT = process.env.SOCKETPORT_DEV;
+export function registerSetGame(fn) {
+    setGame = fn;
 }
 
-socket = io(ENDPOINT, {
-    extraHeaders: {
-        'qwizard': 'abcd',
-    },
+socket.on('update-game', function (game) {
+    setGame(game);
 });
 
-export default socket;
+
+export function getActive(quizID, userName) {
+    console.log('hello act');
+    socket.emit('joinRoom', quizID, userName);
+}
+
+export function sendMessage(user, question, answer) {
+    console.log('hello');
+    socket.emit('sendMessage', { question, answer, user });
+}
+
+export function allStuff(setAnswers) {
+    socket.on('message', (message) => {
+        setAnswers((answers) => [...answers, message]);
+    });
+}
