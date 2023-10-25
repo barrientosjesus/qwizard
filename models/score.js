@@ -9,14 +9,25 @@ const scoreSchema = new Schema({
     },
     quiz: {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Quiz',
         required: true
     },
     score: {
         type: Number,
         required: true
-    }
+    },
+    maxScore: Number
 });
 
+scoreSchema.pre('save', async function (next) {
+    const Quiz = mongoose.model('Quiz');
+    const quiz = await Quiz.findById(this.quiz);
+
+    if (quiz) {
+        this.maxScore = quiz.questions.length;
+    }
+
+    next();
+});
 
 module.exports = mongoose.model('Score', scoreSchema);
