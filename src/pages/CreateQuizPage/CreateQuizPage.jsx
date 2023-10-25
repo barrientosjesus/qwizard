@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { createQuiz } from "../../utilities/quiz-api";
 import CreateQuizForm from "../../components/CreateQuizForm/CreateQuizForm";
 import QuestionFormList from "../../components/QuestionFormList/QuestionFormList";
 import CreateQuestionForm from "../../components/CreateQuestionForm/CreateQuestionForm";
 
 export default function NewQuizPage() {
+    const navigate = useNavigate();
     const [quizData, setQuizData] = useState({
         title: "",
         category: "",
@@ -61,15 +63,12 @@ export default function NewQuizPage() {
                 }
             ]
         });
-
-        console.log(quizData);
     }
 
     async function handleCreateQuiz(evt) {
         evt.preventDefault();
-        console.log(quizData)
         const quiz = await createQuiz(quizData);
-        console.log(quiz)
+        navigate('/quizzes');
     }
 
     function handleQuizChange(evt) {
@@ -100,12 +99,17 @@ export default function NewQuizPage() {
         }
     }
 
+    function isEmpty() {
+        return !!quizData.questions.length;
+    }
+
     return (
         <div className="z-20 w-full grid grid-cols-12">
             <CreateQuizForm
                 quizData={quizData}
                 handleQuizChange={handleQuizChange}
                 handleCreateQuiz={handleCreateQuiz}
+                isEmpty={isEmpty()}
             />
             <CreateQuestionForm
                 questionData={questionData}

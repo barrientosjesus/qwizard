@@ -1,7 +1,8 @@
-export default function CreateQuestionListQuestion({ question }) {
+export default function CreateQuestionListQuestion({ question, index }) {
+
     return (
-        <div className="my-3 py-3 bg-violet-500 w-full rounded-md flex justify-start pl-5">
-            <p className="text-white text-2xl">{question.question}</p>
+        <div className="col-span-12">
+            <h2 className="truncate">{question.question}</h2>
         </div>
     );
 }

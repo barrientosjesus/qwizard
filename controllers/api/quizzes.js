@@ -4,7 +4,8 @@ const Quiz = require('../../models/quiz');
 module.exports = {
     create,
     getAll,
-    getOne
+    getOne,
+    deleteOne
 };
 
 async function create(req, res) {
@@ -28,7 +29,19 @@ async function getOne(req, res) {
         const quiz = await Quiz.findOne({ _id: req.params.id });
         res.json(quiz);
     } catch (err) {
-        console.error(err)
-        res.json(null)
+        console.error(err);
+        res.json(null);
+    }
+}
+
+async function deleteOne(req, res) {
+    try {
+        console.log("Before deleting quiz");
+        await Quiz.deleteOne({ _id: req.params.id, user: req.user._id });
+        console.log("After deleting quiz");
+        res.json(null);
+    } catch (err) {
+        console.log(err);
+        res.json(null);
     }
 }

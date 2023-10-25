@@ -1,9 +1,9 @@
 import { useState, useEffect } from "react";
 import QuizCard from "../../components/QuizCard/QuizCard";
 import QuizFilter from "../../components/QuizFilter/QuizFilter";
-import { getAll } from "../../utilities/quiz-api";
+import { getAll, deleteOne } from "../../utilities/quiz-api";
 
-export default function OrderHistoryPage({ user }) {
+export default function QuizzesPage({ user }) {
   const [quizzes, setQuizzes] = useState([]);
 
   useEffect(() => {
@@ -14,17 +14,32 @@ export default function OrderHistoryPage({ user }) {
     getQuizzes();
   }, []);
 
+  useEffect(() => {
+    console.log(quizzes);
+  }, [quizzes]);
+
+  async function handleDeleteQuiz(quizId) {
+    console.log("Before deleteOne");
+    await deleteOne(quizId);
+    console.log("After deleteOne");
+
+    const updatedQuizzes = await getAll();
+    console.log(updatedQuizzes);
+    setQuizzes(updatedQuizzes);
+
+  }
+
 
   return (
     <main className="z-20 w-full grid grid-cols-12">
       <QuizFilter />
       <section className="col-span-9 rounded-md m-3 bg-violet-500">
         {quizzes.length ? quizzes.map((quiz, index) => (
-          <QuizCard quiz={quiz} key={index} user={user} />
+          <QuizCard quiz={quiz} key={index} user={user} handleDeleteQuiz={handleDeleteQuiz} />
         ))
-      :
-        <h2>No Quizzes Created</h2>
-      }
+          :
+          <h2>No Quizzes Created</h2>
+        }
       </section>
     </main>
   );

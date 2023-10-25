@@ -1,16 +1,17 @@
 import { useNavigate } from "react-router-dom";
 
 
-export default function QuizCard({ quiz, user }) {
+export default function QuizCard({ quiz, user, handleDeleteQuiz }) {
     const navigate = useNavigate();
 
     function handlePlayClick() {
         if (user) {
-            navigate(`/lobby/${quiz._id}`)
+            navigate(`/lobby/${quiz._id}`);
         } else {
-            navigate('/login')
+            navigate('/login');
         }
     }
+
     return (
         <div className="card w-64 bg-base-100 shadow-xl m-5">
             <div className="card-body grid auto-rows-auto">
@@ -30,7 +31,7 @@ export default function QuizCard({ quiz, user }) {
                 <div className="card-actions justify-end">
                     <button onClick={handlePlayClick} className="btn btn-primary">Play Now!</button>
                     {user && user.id === quiz.user.id &&
-                        <button className="btn btn-error">Delete</button>
+                        <button onClick={() => handleDeleteQuiz(quiz._id)} className="btn btn-error">Delete</button>
                     }
                 </div>
             </div>

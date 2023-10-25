@@ -1,5 +1,9 @@
 export default function CreateQuestionForm({ questionData, handleQuestionChange, handleCreateQuestion }) {
 
+    function isAtleastOneSelected() {
+        return questionData.answers.some((a) => a.isCorrect);
+    }
+
     return (
         <section className="col-start-5 col-end-13 grid grid-cols-12 mx-2 my-3 max-h-max">
             <form onSubmit={handleCreateQuestion} className="col-span-12 max-h-max bg-violet-500 flex flex-col items-start rounded-md">
@@ -38,7 +42,10 @@ export default function CreateQuestionForm({ questionData, handleQuestionChange,
                         />
                     </div>
                 ))}
-                <button type="submit" className="btn btn-sm bg-violet-500 my-2 self-center">
+                <button
+                    type="submit"
+                    className={`btn btn-sm bg-violet-500 my-2 self-center ${isAtleastOneSelected() ? '' : 'btn-disabled'}`}
+                >
                     Create
                 </button>
             </form>

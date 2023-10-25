@@ -35,7 +35,7 @@ export default function LobbyPage() {
         socket.on('message', (message) => {
             setAnswers((answers) => [...answers, message]);
         });
-    }, []);
+    });
 
     const handleSubmit = (event) => {
         event.preventDefault();

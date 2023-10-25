@@ -12,3 +12,7 @@ export async function getAll() {
 export async function getOne(quizID) {
     return sendRequest(`${BASE_URL}/${quizID}`);
 }
+
+export async function deleteOne(quizID) {
+    return sendRequest(`${BASE_URL}/delete/${quizID}`, 'DELETE');
+}
