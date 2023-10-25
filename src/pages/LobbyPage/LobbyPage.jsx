@@ -4,7 +4,13 @@ import { getOne } from "../../utilities/quiz-api";
 // import * as socket from "../../utilities/socket";
 import io from 'socket.io-client';
 
-const ENDPOINT = "http://localhost:3001";
+let ENDPOINT;
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    ENDPOINT = "http://localhost:3001";
+} else {
+    ENDPOINT = process.env.SOCKETPORT_DEV;
+}
+
 let socket, selectedChatCompare;
 
 socket = io(ENDPOINT, {
@@ -38,18 +44,9 @@ export default function LobbyPage({ user }) {
         }
     };
 
-    function handleJoin(evt) {
-        evt.preventDefault();
-        socket.emit('joinRoom', quizID);
-    }
-
     return (
         <div>
             <h2>{quiz.title}</h2>
-            <form onSubmit={handleJoin}>
-                <input type="text" value={room} placeholder="ROOM CODE" onChange={(event) => setRoom(event.target.value)} />
-                <button type="submit">Join</button>
-            </form>
             <form onSubmit={handleSubmit}>
                 <input type="text" value={question} placeholder="test question" onChange={(event) => setQuestion(event.target.value)} />
                 <input type="text" value={answer} placeholder="test answer" onChange={(event) => setAnswer(event.target.value)} />
