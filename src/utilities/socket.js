@@ -1,11 +1,18 @@
-// import { getToken } from './users-service';
-// import { getIo } from '../../io';
+import io from 'socket.io-client';
 
-// const socket = window.io();
-// let setQuiz = null;
+let socket;
+let ENDPOINT;
 
-// export function testsocket() {
-//     socket.on('connect', () => {
-//         console.log(socket.id)
-//     })
-// }
+if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
+    ENDPOINT = 'http://localhost:3001';
+} else {
+    ENDPOINT = process.env.SOCKETPORT_DEV;
+}
+
+socket = io(ENDPOINT, {
+    extraHeaders: {
+        'qwizard': 'abcd',
+    },
+});
+
+export default socket;

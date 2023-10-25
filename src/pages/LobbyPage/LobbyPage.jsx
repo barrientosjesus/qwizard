@@ -1,23 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { getOne } from "../../utilities/quiz-api";
-// import * as socket from "../../utilities/socket";
-import io from 'socket.io-client';
-
-let ENDPOINT;
-if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
-    ENDPOINT = "http://localhost:3001";
-} else {
-    ENDPOINT = process.env.SOCKETPORT_DEV;
-}
-
-let socket, selectedChatCompare;
-
-socket = io(ENDPOINT, {
-    extraHeaders: {
-        'qwizard': 'abcd'
-    }
-});
+import socket from "../../utilities/socket";
 
 export default function LobbyPage({ user }) {
     const [question, setQuestion] = useState('');
@@ -38,7 +22,7 @@ export default function LobbyPage({ user }) {
     const handleSubmit = (event) => {
         event.preventDefault();
         if (question && answer) {
-            socket.emit('sendMessage', { question, answer });
+            socket.emit('sendMessage', { question, answer, user: user.name });
             setQuestion('');
             setAnswer('');
         }
@@ -55,7 +39,7 @@ export default function LobbyPage({ user }) {
             <ul>
                 {answers.map((answer, index) => (
                     <li key={index}>
-                        {answer.question}: {answer.answer}
+                        {answer.user}: {answer.question} - {answer.answer}
                     </li>
                 ))}
             </ul>
