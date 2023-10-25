@@ -24,7 +24,7 @@ export default function App() {
           {user && (
             <>
               <Route path="/quizzes/create" element={<CreateQuizPage />} />
-              <Route path="/lobby/:quizID" element={<LobbyPage />} />
+              <Route path="/lobby/:quizID" element={<LobbyPage user={user} />} />
             </>
           )}
           <Route path="/*" element={<Navigate to="/" />} />

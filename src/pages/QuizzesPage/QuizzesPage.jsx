@@ -10,15 +10,11 @@ export default function QuizzesPage({ user }) {
   useEffect(() => {
     async function getQuizzes() {
       const quizzes = await getAll();
-      setIsLoading(false);
       setQuizzes(quizzes);
+      setIsLoading(false);
     }
     getQuizzes();
   }, []);
-
-  useEffect(() => {
-    console.log(quizzes);
-  }, [quizzes]);
 
   async function handleDeleteQuiz(quizId) {
     console.log("Before deleteOne");

@@ -45,14 +45,4 @@ const quizSchema = new Schema({
     timestamps: true
 });
 
-quizSchema.virtual('highestScoreWithUser').get(async function () {
-    const Score = mongoose.model('Score');
-    const highestScore = await Score.findOne({ quiz: this._id })
-        .sort({ score: -1 })
-        .limit(1)
-        .populate('user', 'name');
-
-    return highestScore;
-});
-
 module.exports = mongoose.model('Quiz', quizSchema);

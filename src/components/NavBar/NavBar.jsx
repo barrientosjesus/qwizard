@@ -25,8 +25,6 @@ export default function NavBar({ user, setUser }) {
         </label>
         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
           <li><Link to="/quizzes">Quizzes</Link></li>
-          <li><Link>Parent</Link></li>
-          <li><Link>Item 3</Link></li>
         </ul>
       </div>
       <div className="flex-1">
@@ -55,7 +53,7 @@ export default function NavBar({ user, setUser }) {
                   Create Quiz
                 </Link>
               </li>
-              <li><Link>My Quizzes</Link></li>
+              <li><Link aria-disabled='true'>My Quizzes</Link></li>
               <li><span onClick={handleLogOut}>Logout</span></li>
             </ul>
           </div>

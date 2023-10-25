@@ -13,7 +13,7 @@ socket = io(ENDPOINT, {
     }
 });
 
-export default function LobbyPage() {
+export default function LobbyPage({ user }) {
     const [question, setQuestion] = useState('');
     const [answer, setAnswer] = useState('');
     const [answers, setAnswers] = useState([]);
@@ -23,19 +23,11 @@ export default function LobbyPage() {
     const navigate = useNavigate();
 
     useEffect(() => {
-        async function getQuiz() {
-            const fetchedQuiz = await getOne(quizID);
-            if (!fetchedQuiz) {
-                navigate('/quizzes');
-            }
-            setQuiz(fetchedQuiz);
-        }
-        getQuiz();
-
         socket.on('message', (message) => {
             setAnswers((answers) => [...answers, message]);
         });
-    });
+        socket.emit('joinRoom', quizID, user.name);
+    }, []);
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -48,7 +40,7 @@ export default function LobbyPage() {
 
     function handleJoin(evt) {
         evt.preventDefault();
-        socket.emit('joinRoom', room);
+        socket.emit('joinRoom', quizID);
     }
 
     return (

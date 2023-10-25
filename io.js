@@ -32,13 +32,14 @@ function init(http) {
       socket.to(socket.room).emit('message', message);
     });
 
-    socket.on('joinRoom', (room) => {
+    socket.on('joinRoom', (room, userName) => {
       if (socket.room) {
         socket.leave(socket.room);
       }
 
       socket.room = room;
       socket.join(room);
+      socket.to(socket.room).emit('message', { question: userName, answer: 'Joined The Room' });
     });
 
     socket.on('test_message', (room) => {
