@@ -1,21 +1,13 @@
-import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import * as userService from '../../utilities/users-service';
 
 export default function NavBar({ user, setUser }) {
-  const [roomID, setRoomID] = useState('');
   const navigate = useNavigate();
 
   function handleLogOut() {
     userService.logOut();
     setUser(null);
     navigate('/')
-  }
-
-  function handleEnter(evt) {
-    if (evt.key !== 'Enter') return;
-    navigate(`/lobby/${roomID}`);
-    setRoomID('');
   }
 
   return (

@@ -1,4 +1,3 @@
-const { resolvePath } = require('react-router-dom');
 const Quiz = require('../../models/quiz');
 
 module.exports = {

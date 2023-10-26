@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import QuizCard from "../../components/QuizCard/QuizCard";
 import QuizFilter from "../../components/QuizFilter/QuizFilter";
 import { getAll, deleteOne } from "../../utilities/quiz-api";
@@ -6,16 +6,23 @@ import { getAll, deleteOne } from "../../utilities/quiz-api";
 export default function QuizzesPage({ user }) {
   const [quizzes, setQuizzes] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [filterText, setFilterText] = useState('');
+  const timerIdRef = useRef();
 
   useEffect(() => {
     async function getQuizzes() {
       const quizzes = await getAll();
-      setQuizzes(quizzes);
+      const regex = new RegExp(`.*${filterText}.*`, 'i');
+      setQuizzes(quizzes.filter(quiz => regex.test(quiz.title) || regex.test(quiz.description)));
       setIsLoading(false);
     }
-    getQuizzes();
-    console.log('test')
-  }, []);
+    if (filterText === '') {
+      getQuizzes();
+    } else {
+      timerIdRef.current = setTimeout(getQuizzes, 1000);
+    }
+    return () => clearTimeout(timerIdRef.current);
+  }, [filterText]);
 
   async function handleDeleteQuiz(quizId) {
     console.log("Before deleteOne");
@@ -31,7 +38,7 @@ export default function QuizzesPage({ user }) {
 
   return (
     <main className="z-20 w-full grid grid-cols-12">
-      <QuizFilter />
+      <QuizFilter setFilterText={setFilterText} />
       {isLoading ?
         <div className="col-span-9 rounded-md m-3 bg-violet-500 flex flex-col items-center justify-center">
           <span className="loading loading-dots loading-lg text-white"></span>
