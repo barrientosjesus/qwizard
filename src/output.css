@@ -2854,6 +2854,11 @@ details.collapse summary::-webkit-details-marker {
   margin-right: 0.5rem;
 }
 
+.mx-3 {
+  margin-left: 0.75rem;
+  margin-right: 0.75rem;
+}
+
 .mx-auto {
   margin-left: auto;
   margin-right: auto;
@@ -3138,6 +3143,11 @@ details.collapse summary::-webkit-details-marker {
   padding-right: 0.25rem;
 }
 
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
+
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -3305,13 +3315,6 @@ body {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-@media (min-width: 1024px) {
-  .lg\:form-control {
-    display: flex;
-    flex-direction: column;
-  }
 }
 
 .placeholder\:text-slate-300\/50::-webkit-input-placeholder {
