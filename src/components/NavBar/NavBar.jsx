@@ -9,12 +9,13 @@ export default function NavBar({ user, setUser }) {
   function handleLogOut() {
     userService.logOut();
     setUser(null);
+    navigate('/')
   }
 
   function handleEnter(evt) {
-    if(evt.key !== 'Enter') return;
+    if (evt.key !== 'Enter') return;
     navigate(`/lobby/${roomID}`);
-    setRoomID('')
+    setRoomID('');
   }
 
   return (
@@ -25,6 +26,7 @@ export default function NavBar({ user, setUser }) {
         </label>
         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
           <li><Link to="/quizzes">Quizzes</Link></li>
+          {user && <li><Link to="/quizzes/create">Create Qwiz</Link></li> }
         </ul>
       </div>
       <div className="flex-1">
@@ -34,13 +36,11 @@ export default function NavBar({ user, setUser }) {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li><Link to="/quizzes" className='font-bold text-white hover:text-gray-300'>Qwizzes</Link></li>
+          {user && <li><Link to="/quizzes/create" className='font-bold text-white hover:text-gray-300'>Create Qwiz</Link></li> }
         </ul>
       </div>
       {user &&
         <div className="flex-none gap-2">
-          <div className="hidden lg:form-control">
-            <input type="text" placeholder="JOIN CODE" value={roomID} onChange={(evt) => setRoomID(evt.target.value)} onKeyDown={handleEnter} className="input input-bordered w-24 md:w-auto placeholder:text-slate-500/40" />
-          </div>
           <div className="dropdown dropdown-end">
             <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
               <div className="w-10 rounded-full">

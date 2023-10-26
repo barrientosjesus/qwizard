@@ -10,24 +10,21 @@ export default function LobbyPage({ user }) {
     const quizID = useParams().quizID;
 
     useEffect(() => {
-        async function getQuiz() {
-            const quizData = await getOne(quizID);
-            setQuiz(quizData);
-            console.log(quizData)
-        }
-        getQuiz();
+        socket.registerSetGame(setAnswers);
+        socket.joinGame(quizID, user.name);
+
     }, [user, quizID]);
 
     const handleSubmit = (event) => {
         event.preventDefault();
         if (question) {
-            socket.sendMessage(user.name, question);
+            socket.sendMessage(quizID, user.name, question);
             setQuestion('');
         }
     };
 
     return (
-        <div className="h-full flex flex-col items-center justify-center">
+        <div className="h-full w-full flex flex-col items-center justify-center">
             <h2>{quiz?.title || 'Error'}</h2>
             <form onSubmit={handleSubmit}>
                 <input type="text" value={question} placeholder="test question" onChange={(event) => setQuestion(event.target.value)} />
@@ -36,7 +33,7 @@ export default function LobbyPage({ user }) {
             <ul>
                 {answers.map((answer, index) => (
                     <li key={index}>
-                        {answer.user}: {answer.question}
+                        {answer}
                     </li>
                 ))}
             </ul>

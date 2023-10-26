@@ -1,9 +1,9 @@
 const jwt = require('jsonwebtoken');
-const Score = require('./models/score');
+const Game = require('./models/game');
 
 let io;
 
-const quizzes = {};
+const games = {};
 
 module.exports = {
   init,
@@ -15,28 +15,18 @@ function init(http) {
 
   io.on("connection", function (socket) {
     console.log(`Socket ${socket.id} connected`);
-
     socket.on('disconnect', function () {
       console.log('disconnected');
       console.log(`Socket ${socket.id} disconnected`);
     });
 
-    socket.on('sendMessage', (message) => {
-      socket.to(socket.room).emit('message', message);
+    socket.on('sendMessage', ({quizID, user, question}) => {
+      socket.to(quizID).emit('update-game', `${user}: ${question}`);
     });
 
-    socket.on('joinRoom', (room, userName) => {
-      if (socket.room) {
-        socket.leave(socket.room);
-      }
-
-      socket.room = room;
-      socket.join(room);
-      socket.to(socket.room).emit('message', { question: userName, answer: 'Joined The Room' });
-    });
-
-    socket.on('test_message', (room) => {
-
+    socket.on('joinGame', (quizID, userName) => {
+      socket.join(quizID);
+      io.to(quizID).emit('update-game', `${userName} Joined`)
     });
   });
 }

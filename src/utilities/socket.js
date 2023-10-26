@@ -6,22 +6,26 @@ export function registerSetGame(fn) {
 }
 
 socket.on('update-game', function (game) {
-    setGame(game);
+    setGame([game]);
 });
 
 
-export function getActive(quizID, userName) {
+export function getUsers(quizID, userName) {
     console.log('hello act');
     socket.emit('joinRoom', quizID, userName);
 }
 
-export function sendMessage(user, question, answer) {
-    console.log('hello');
-    socket.emit('sendMessage', { question, answer, user });
+export function sendMessage(quizID, user, question) {
+    console.log(user);
+    socket.emit('sendMessage', { quizID, user, question });
 }
 
 export function allStuff(setAnswers) {
     socket.on('message', (message) => {
         setAnswers((answers) => [...answers, message]);
     });
+}
+
+export function joinGame(quizID, userName) {
+    socket.emit('joinGame', quizID, userName);
 }
