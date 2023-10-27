@@ -66,7 +66,7 @@ function init(http) {
       io.to(quizID).emit('update-game', lobbies[quizID]);
     });
 
-    socket.on('leaveRoom', async function ({quizID, token}) {
+    socket.on('leaveLobby', async function ({quizID, token}) {
       console.log('leaveing room')
       const user = await validateToken(token);
       if (!user) return;

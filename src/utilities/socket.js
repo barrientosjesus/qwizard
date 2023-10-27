@@ -42,8 +42,8 @@ export function joinLobby(quizID) {
     });
 }
 
-export function leaveRoom(quizID) {
-    socket.emit('leaveRoom', {
+export function leaveLobby(quizID) {
+    socket.emit('leaveLobby', {
         quizID,
         token: getToken()
     })
