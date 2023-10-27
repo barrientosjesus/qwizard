@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const Game = require('./models/game');
+const Quiz = require('./models/quiz')
 
 let io;
 
@@ -72,6 +73,38 @@ function init(http) {
       lobbies[quizID] = lobbies[quizID]?.filter(u => u._id !== user._id);
       io.to(quizID).emit('update-lobby', lobbies[quizID]);
     });
+
+    socket.on('update-score', async function ({ token, gameID, score }) {
+      const user = await validateToken(token);
+      if (!user) return;
+      const game = await Game.findOne({ _id: gameID });
+      const player = game.players.find(p => p._id === user._id)
+      player.score += score;
+      player.hasAnswered = true;
+      await game.save();
+    })
+
+    socket.on('nextQuestion', async function ({ gameID, quizID }) {
+      const game = await Game.findOne({ _id: gameID });
+      if (!game) return;
+      const quiz = await Quiz.findOne({ _id: quizID})
+      if (quiz.questions.length === game.currentQuestionIndex + 1) {
+        return io.emit('end-game', game._id);
+      } else {
+        game.currentQuestionIndex += 1;
+      }
+      await game.save();
+      io.to(game._id.toString()).emit('update-game', game);
+    })
+
+    socket.on('end-game', async function(gameID) {
+      const game = await Game.findOne({ _id: gameID });
+      if (!game) return;
+      game.inProgress = false;
+      await game.save();
+      io.to(game._id.toString()).emit('update-game', game);
+      socket.leave(game._id.toString());
+    })
   });
 }
 

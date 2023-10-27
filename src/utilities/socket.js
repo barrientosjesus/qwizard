@@ -20,11 +20,6 @@ socket.on('update-game', function (game) {
     setGame(game);
 });
 
-export function getUsers(quizID, userName) {
-    console.log('hello act');
-    socket.emit('joinRoom', quizID, userName);
-}
-
 export function sendMessage(quizID, user, question) {
     socket.emit('sendMessage', { quizID, user, question });
 }
@@ -49,4 +44,19 @@ export function leaveLobby(quizID) {
         quizID,
         token: getToken()
     });
+}
+
+export function updateScore(score, gameID) {
+    socket.emit('update-score', {
+        token: getToken(),
+        gameID,
+        score
+    })
+}
+
+export function nextQuestion(gameID, quizID) {
+    socket.emit('next-question', {
+        gameID,
+        quizID
+    })
 }

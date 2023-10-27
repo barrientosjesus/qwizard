@@ -25,7 +25,10 @@ const gameSchema = new Schema({
         required: true
     },
     players: [playerSchema],
-    currentQuestionIndex: Number,
+    currentQuestionIndex: {
+        type: Number,
+        default: 0
+    },
     inProgress: {
         type: Boolean,
         default: true

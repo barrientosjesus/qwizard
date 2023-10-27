@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { getOne } from "../../utilities/quiz-api";
 import Lobby from "../../components/Lobby/Lobby";
 import Game from "../../components/Game/Game";
+import EndGameScreen from "../../components/EndGameScreen/EndGameScreen";
 import * as socket from "../../utilities/socket";
 
 export default function GamePage({ user }) {
@@ -20,8 +21,7 @@ export default function GamePage({ user }) {
             setQuiz(cacheQuiz);
         }
         getQuiz();
-        
-        if(user) socket.getActive();
+        if (user) socket.getActive();
     }, [user, quizID]);
 
     // handle user navigating away from page
@@ -50,15 +50,19 @@ export default function GamePage({ user }) {
         socket.newGame(quizID);
     };
 
-    return (
-        <div className="h-full w-full flex flex-col items-center justify-center">
-            <div className="grid grid-cols-12 rounded-md justify-items-center grid-rows-3 h-1/2 w-1/2 bg-violet-500 shadow-md">
-                { game?.inProgress ?
-                    <Game game={game} quiz={quiz} />
-                    :
-                    <Lobby quiz={quiz} lobby={lobby} user={user} handleSubmit={handleSubmit} />
-                }
-            </div>
-        </div>
-    );
+    function handleScoreUpdate(score){
+        socket.updateScore(score, game._id)
+    }
+
+    function handleNextQuestion() {
+        socket.nextQuestion(game._id, quizID)
+    }
+
+    if (game?.inProgress) {
+        return <Game game={game} quiz={quiz} handleScoreUpdate={handleScoreUpdate} />;
+    } else if (!game?.inProgress && game?.currentQuestionIndex + 1 === quiz?.questions.length) {
+        return <EndGameScreen game={game} />
+    } else {
+        return <Lobby quiz={quiz} lobby={lobby} user={user} handleSubmit={handleSubmit} />;
+    }
 }
