@@ -62,9 +62,10 @@ export function updateScore(score, gameID) {
     })
 }
 
-export function nextQuestion(gameID, quizID) {
+export function nextQuestion(gameID, quizID, gameIndex) {
     socket.emit('next-question', {
         gameID,
-        quizID
+        quizID,
+        gameIndex
     })
 }

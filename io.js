@@ -6,8 +6,6 @@ let io;
 
 const games = {};
 const lobbies = {};
-const answeredPlayers = {};
-const nextQuestionProcessing = {};
 
 module.exports = {
   init,
@@ -44,11 +42,12 @@ function init(http) {
       if (games[quizID]) return;
       const game = await Game.createForUsers(quizID, lobbies[quizID]);
       games[game._id] = game;
+
       io.to(quizID).emit('update-game', game);
       io.to(quizID).emit('update-lobby', []);
-      io.in(quizID).socketsJoin(game._id.toString())
-      io.in(quizID).socketsLeave(quizID)
-      
+      io.in(quizID).socketsJoin(game._id.toString());
+      io.in(quizID).socketsLeave(quizID);
+
       delete lobbies[quizID];
     });
 
@@ -86,54 +85,54 @@ function init(http) {
       player.hasAnswered = true;
       await game.save();
 
-      if (!answeredPlayers[gameID]) {
-        answeredPlayers[gameID] = [];
-      }
-      answeredPlayers[gameID].push(player.userID);
-
-      if (answeredPlayers[gameID].length === game.players.length) {
-        console.log('all players played');
+      if (game.players.every(p => p.hasAnswered)) {
         const quizID = game.quiz._id;
         io.to(game._id.toString()).emit('next-question', { gameID, quizID });
-        answeredPlayers[gameID] = [];
       } else {
         io.to(game._id.toString()).emit('update-game', game);
       }
     });
 
     socket.on('next-question', async function ({ gameID, quizID }) {
-      console.log('next questions');
       const game = await Game.findOne({ _id: gameID });
       if (!game) return;
 
-      if (nextQuestionProcessing[gameID]) {
-        return;
-      }
+      setTimeout(async () => {
+        if (game.players.every(p => p.hasAnswered)) {
+          game.players.forEach(p => p.hasAnswered = false);
+          const quiz = await Quiz.findOne({ _id: quizID });
 
-      nextQuestionProcessing[gameID] = true;
-
-      game.players.forEach(p => p.hasAnswered = false);
-      const quiz = await Quiz.findOne({ _id: quizID });
-      if (quiz.questions.length === game.currentQuestionIndex + 1) {
-        io.to(game._id.toString()).emit('end-game', gameID);
-      } else {
-        console.log('else next-question');
-        game.currentQuestionIndex += 1;
-        await game.save();
-        io.to(game._id.toString()).emit('update-game', game);
-      }
-      nextQuestionProcessing[gameID] = false;
+          if (quiz.questions.length === game.currentQuestionIndex + 1) {
+            io.to(game._id.toString()).emit('end-game', gameID);
+          } else {
+            game.currentQuestionIndex += 1;
+            await game.save();
+            io.to(game._id.toString()).emit('update-game', game);
+          }
+        }
+      }, 2000);
     });
 
     socket.on('end-game', async function (gameID) {
-      console.log('end game');
-      const game = await Game.findOne({ _id: gameID });
+      const game = await Game.findOne({ _id: gameID }).populate('quiz');
+
       if (!game) return;
+
       game.inProgress = false;
       await game.save();
-      console.log('end game post save');
+
       io.to(game._id.toString()).emit('update-game', game);
       socket.leave(game._id.toString());
+
+      const quiz = await Quiz.findOne({ _id: game.quiz._id });
+      quiz.totalPlays += game.players.length;
+      if (!quiz.averageScore && !quiz.totalPlays) {
+        quiz.averageScore = calculateAverage(game.players);
+      } else {
+        quiz.averageScore = calculateUpdatedAverage(quiz.averageScore, quiz.totalPlays, game.players);
+      }
+      quiz.highScore = updateHighScore(game.players, quiz.highScore);
+      quiz.save();
     });
   });
 }
@@ -155,4 +154,28 @@ function validateToken(token) {
       resolve(decoded.user);
     });
   });
+}
+
+function calculateUpdatedAverage(previousAverage, totalPlays, newPlayerScores) {
+  const totalScores = previousAverage * totalPlays;
+  const newScoresTotal = newPlayerScores.reduce((total, player) => total + player.score, 0);
+  const updatedTotalScores = totalScores + newScoresTotal;
+  return Math.round(updatedTotalScores / (totalPlays + newPlayerScores.length));
+}
+
+function calculateAverage(players) {
+  if (players.length === 0) {
+    return 0;
+  }
+
+  const totalScore = players.reduce((sum, player) => sum + player.score, 0);
+  return Math.round(totalScore / players.length);
+}
+
+function updateHighScore(newPlayers, previousScore) {
+  let newScore = previousScore;
+  newPlayers.forEach(p => {
+    newScore = p.score > newScore.score ? { playerName: p.name, score: p.score } : newScore;
+  });
+  return newScore;
 }

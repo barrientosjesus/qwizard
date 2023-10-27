@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 export default function QuizCard({ quiz, user, handleDeleteQuiz }) {
     const navigate = useNavigate();
 
+    const averageScore = Math.floor((quiz.averageScore / quiz.questions.length) * 100)
+
     function handlePlayClick() {
         if (user) {
             navigate(`/lobby/${quiz._id}`);
@@ -20,9 +22,9 @@ export default function QuizCard({ quiz, user, handleDeleteQuiz }) {
                     <small><em>Created by {quiz.user.name} on {quiz.formattedDate}</em></small>
                 </section>
                 <section className="grid auto-rows-auto">
-                    <small>Average Score: 72%</small>
-                    <progress className="progress progress-secondary" value="80" max="100"></progress>
-                    <span>High Score: Chewbacca</span>
+                    <small>Average Score: {averageScore}%</small>
+                    <progress className="progress progress-secondary" value={averageScore} max="100"></progress>
+                    <span>High Score: {quiz.highScore.playerName}</span>
                 </section>
                 <div>Category: <strong>{quiz.category}</strong></div>
                 <section>

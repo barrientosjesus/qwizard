@@ -13,6 +13,11 @@ const answerSchema = new Schema({
     }
 });
 
+const highScoreSchema = new Schema({
+    playerName: String,
+    score: Number
+})
+
 const questionSchema = new Schema({
     question: {
         type: String,
@@ -40,6 +45,18 @@ const quizSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'User',
         required: true
+    },
+    highScore: {
+        type: highScoreSchema,
+        default: { playerName: 'None', score: 0 }
+    },
+    averageScore: {
+        type: Number,
+        default: 0
+    },
+    totalPlays: {
+        type: Number,
+        default: 0
     }
 }, {
     timestamps: true,

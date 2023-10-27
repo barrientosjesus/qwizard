@@ -21,7 +21,7 @@ export default function Game({ game, quiz, handleScoreUpdate }) {
 
         if (timer === 0 && !answered) {
             setAnswered(true);
-            delayHandleScoreUpdate(0);
+            handleScoreUpdate(0);
         }
 
         return () => {
@@ -39,17 +39,11 @@ export default function Game({ game, quiz, handleScoreUpdate }) {
         const selectedAnswer = currentQuestion.answers[answerIndex];
 
         if (selectedAnswer.isCorrect) {
-            delayHandleScoreUpdate(1);
+            handleScoreUpdate(1);
         } else {
-            delayHandleScoreUpdate(0);
+            handleScoreUpdate(0);
         }
         setAnswered(true);
-    }
-
-    function delayHandleScoreUpdate(score) {
-        setTimeout(() => {
-          handleScoreUpdate(score);
-        }, 3000);
     }
 
     function answerClass(answerIndex) {

@@ -49,7 +49,9 @@ export default function QuizzesPage({ user }) {
             <QuizCard quiz={quiz} key={index} user={user} handleDeleteQuiz={handleDeleteQuiz} />
           ))
             :
-            <span className="text-white text-8xl">No Quizzes Created</span>
+            <div className="w-full h-full flex justify-center items-center">
+              <span className="text-white text-8xl">No Quizzes Created</span>
+            </div>
           }
         </section>
       }
