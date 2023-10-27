@@ -20,6 +20,14 @@ socket.on('update-game', function (game) {
     setGame(game);
 });
 
+socket.on('next-question', function({ gameID, quizID }) {
+    socket.emit('next-question', { gameID, quizID })
+})
+
+socket.on('end-game', function(gameID) {
+    socket.emit('end-game', gameID)
+})
+
 export function sendMessage(quizID, user, question) {
     socket.emit('sendMessage', { quizID, user, question });
 }

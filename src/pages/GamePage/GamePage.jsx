@@ -50,18 +50,18 @@ export default function GamePage({ user }) {
         socket.newGame(quizID);
     };
 
-    function handleScoreUpdate(score){
-        socket.updateScore(score, game._id)
-    }
-
-    function handleNextQuestion() {
-        socket.nextQuestion(game._id, quizID)
+    function handleScoreUpdate(score) {
+        socket.updateScore(score, game._id);
     }
 
     if (game?.inProgress) {
-        return <Game game={game} quiz={quiz} handleScoreUpdate={handleScoreUpdate} />;
+        return <Game
+            game={game}
+            quiz={quiz}
+            handleScoreUpdate={handleScoreUpdate}
+        />;
     } else if (!game?.inProgress && game?.currentQuestionIndex + 1 === quiz?.questions.length) {
-        return <EndGameScreen game={game} />
+        return <EndGameScreen game={game} />;
     } else {
         return <Lobby quiz={quiz} lobby={lobby} user={user} handleSubmit={handleSubmit} />;
     }

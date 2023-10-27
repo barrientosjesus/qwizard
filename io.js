@@ -1,11 +1,13 @@
 const jwt = require('jsonwebtoken');
 const Game = require('./models/game');
-const Quiz = require('./models/quiz')
+const Quiz = require('./models/quiz');
 
 let io;
 
 const games = {};
 const lobbies = {};
+const answeredPlayers = {};
+const nextQuestionProcessing = {};
 
 module.exports = {
   init,
@@ -43,8 +45,10 @@ function init(http) {
       const game = await Game.createForUsers(quizID, lobbies[quizID]);
       games[game._id] = game;
       io.to(quizID).emit('update-game', game);
-      socket.leave(quizID);
-      socket.join(game._id.toString());
+      io.to(quizID).emit('update-lobby', []);
+      io.in(quizID).socketsJoin(game._id.toString())
+      io.in(quizID).socketsLeave(quizID)
+      
       delete lobbies[quizID];
     });
 
@@ -66,7 +70,6 @@ function init(http) {
     });
 
     socket.on('leaveLobby', async function ({ quizID, token }) {
-      console.log('leaving room');
       const user = await validateToken(token);
       if (!user) return;
       socket.leave(quizID);
@@ -78,33 +81,60 @@ function init(http) {
       const user = await validateToken(token);
       if (!user) return;
       const game = await Game.findOne({ _id: gameID });
-      const player = game.players.find(p => p._id === user._id)
+      const player = game.players.find(p => p.userID.equals(user._id));
       player.score += score;
       player.hasAnswered = true;
       await game.save();
-    })
 
-    socket.on('nextQuestion', async function ({ gameID, quizID }) {
+      if (!answeredPlayers[gameID]) {
+        answeredPlayers[gameID] = [];
+      }
+      answeredPlayers[gameID].push(player.userID);
+
+      if (answeredPlayers[gameID].length === game.players.length) {
+        console.log('all players played');
+        const quizID = game.quiz._id;
+        io.to(game._id.toString()).emit('next-question', { gameID, quizID });
+        answeredPlayers[gameID] = [];
+      } else {
+        io.to(game._id.toString()).emit('update-game', game);
+      }
+    });
+
+    socket.on('next-question', async function ({ gameID, quizID }) {
+      console.log('next questions');
       const game = await Game.findOne({ _id: gameID });
       if (!game) return;
-      const quiz = await Quiz.findOne({ _id: quizID})
-      if (quiz.questions.length === game.currentQuestionIndex + 1) {
-        return io.emit('end-game', game._id);
-      } else {
-        game.currentQuestionIndex += 1;
-      }
-      await game.save();
-      io.to(game._id.toString()).emit('update-game', game);
-    })
 
-    socket.on('end-game', async function(gameID) {
+      if (nextQuestionProcessing[gameID]) {
+        return;
+      }
+
+      nextQuestionProcessing[gameID] = true;
+
+      game.players.forEach(p => p.hasAnswered = false);
+      const quiz = await Quiz.findOne({ _id: quizID });
+      if (quiz.questions.length === game.currentQuestionIndex + 1) {
+        io.to(game._id.toString()).emit('end-game', gameID);
+      } else {
+        console.log('else next-question');
+        game.currentQuestionIndex += 1;
+        await game.save();
+        io.to(game._id.toString()).emit('update-game', game);
+      }
+      nextQuestionProcessing[gameID] = false;
+    });
+
+    socket.on('end-game', async function (gameID) {
+      console.log('end game');
       const game = await Game.findOne({ _id: gameID });
       if (!game) return;
       game.inProgress = false;
       await game.save();
+      console.log('end game post save');
       io.to(game._id.toString()).emit('update-game', game);
       socket.leave(game._id.toString());
-    })
+    });
   });
 }
 
@@ -122,7 +152,6 @@ function validateToken(token) {
   return new Promise(function (resolve) {
     jwt.verify(token, process.env.SECRET, function (err, decoded) {
       if (err) resolve(false);
-      console.log('Decoded user: ', decoded.user);
       resolve(decoded.user);
     });
   });
