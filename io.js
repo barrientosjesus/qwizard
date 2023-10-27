@@ -25,34 +25,32 @@ function init(http) {
       socket.to(quizID).emit('update-game', `${user}: ${question}`);
     });
 
-    socket.on('joinGame', async function ({ quizID, token }) {
+    socket.on('get-active', async function (token) {
       const user = await validateToken(token);
-      let game;
       if (!user) return;
-      if (games[quizID]) {
-        // if game in progress,
-        game = games[quizID];
-        const isUserInGame = game.players.some(player => player.userID.toString() === user._id.toString());
-
-        if (!isUserInGame) {
-          game.players.push({
-            name: user.name,
-            userID: user._id
-          });
-
-          await game.save();
-        }
-      } else {
-        game = await Game.createForUser(user, quizID);
-        games[quizID] = game;
+      let game = findGameInMemory(user);
+      if (!game) game = await Game.getActiveForUser(user);
+      if (game) {
+        socket.join(game._id.toString());
+        games[game._id.toString()] = game;
+        io.to(game._id.toString()).emit('update-game', game);
       }
+    });
+
+    socket.on('newGame', async function (quizID) {
+      if (games[quizID]) return;
+      const game = await Game.createForUsers(quizID, lobbies[quizID]);
+      games[game._id] = game;
+      io.to(quizID).emit('update-game', game);
+      socket.leave(quizID);
       socket.join(game._id.toString());
-      io.to(game._id.toString()).emit('update-game', `${user.name} Joined`);
+      delete lobbies[quizID];
     });
 
     socket.on('joinLobby', async function ({ quizID, token }) {
       const user = await validateToken(token);
-      if (!user) return;
+      if (games)
+        if (!user) return;
 
       if (!lobbies[quizID]) {
         lobbies[quizID] = [];
@@ -63,22 +61,28 @@ function init(http) {
       }
 
       socket.join(quizID);
-      io.to(quizID).emit('update-game', lobbies[quizID]);
+      io.to(quizID).emit('update-lobby', lobbies[quizID]);
     });
 
-    socket.on('leaveLobby', async function ({quizID, token}) {
-      console.log('leaveing room')
+    socket.on('leaveLobby', async function ({ quizID, token }) {
+      console.log('leaving room');
       const user = await validateToken(token);
       if (!user) return;
       socket.leave(quizID);
-      lobbies[quizID] = lobbies[quizID].filter(u => u._id !== user._id)
-      io.to(quizID).emit('update-game', lobbies[quizID])
-    })
+      lobbies[quizID] = lobbies[quizID]?.filter(u => u._id !== user._id);
+      io.to(quizID).emit('update-lobby', lobbies[quizID]);
+    });
   });
 }
 
 function getIo() {
   return io;
+}
+
+function findGameInMemory(user) {
+  let gamesArr = Object.values(games);
+  const game = gamesArr.find(g => g.players.some(p => p.playerId === user._id));
+  return game;
 }
 
 function validateToken(token) {

@@ -2,16 +2,23 @@ import { getToken } from "./users-service";
 
 const socket = window.io();
 let setGame = null;
+let setLobby = null;
+
+export function registerSetLobby(fn) {
+    setLobby = fn;
+}
 
 export function registerSetGame(fn) {
     setGame = fn;
 }
 
-socket.on('update-game', function (game) {
-    console.log(game)
-    setGame(game);
+socket.on('update-lobby', function (lobby) {
+    setLobby(lobby);
 });
 
+socket.on('update-game', function (game) {
+    setGame(game);
+});
 
 export function getUsers(quizID, userName) {
     console.log('hello act');
@@ -22,17 +29,12 @@ export function sendMessage(quizID, user, question) {
     socket.emit('sendMessage', { quizID, user, question });
 }
 
-export function allStuff(setAnswers) {
-    socket.on('message', (message) => {
-        setAnswers((answers) => [...answers, message]);
-    });
+export function getActive() {
+    socket.emit('get-active', getToken());
 }
 
-export function joinGame(quizID) {
-    socket.emit('joinGame', {
-        quizID,
-        token: getToken()
-    });
+export function newGame(quizID) {
+    socket.emit('newGame', quizID);
 }
 
 export function joinLobby(quizID) {
@@ -46,5 +48,5 @@ export function leaveLobby(quizID) {
     socket.emit('leaveLobby', {
         quizID,
         token: getToken()
-    })
+    });
 }

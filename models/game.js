@@ -11,6 +11,10 @@ const playerSchema = new Schema({
     score: {
         type: Number,
         default: 0
+    },
+    hasAnswered: {
+        type: Boolean,
+        default: false
     }
 });
 
@@ -22,19 +26,29 @@ const gameSchema = new Schema({
     },
     players: [playerSchema],
     currentQuestionIndex: Number,
-    inProgress: Boolean
+    inProgress: {
+        type: Boolean,
+        default: true
+    }
 }, {
     timestamps: true
 });
 
 gameSchema.statics.getActiveForUser = function (user) {
-    return this.findOne({ 'scores.userID': user._id });
+    return this.findOne({ 'scores.userID': user._id, inProgress: true });
 };
 
-gameSchema.statics.createForUser = async function (user, quizID) {
-    const game = new this({ quiz: quizID });
-    game.players.push({ name: user.name, userID: user._id });
+gameSchema.statics.createForUsers = async function (quizID, users) {
+    const players = users.map((user) => ({
+        name: user.name,
+        userID: user._id,
+        score: 0
+    }));
+
+    const game = new this({ quiz: quizID, players });
+
     await game.save();
+
     return game;
 };
 

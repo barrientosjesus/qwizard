@@ -7,7 +7,7 @@ import NavBar from '../../components/NavBar/NavBar';
 import LandingPage from '../LandingPage/LandingPage';
 import QuestionMarkBG from "../../components/QuestionMarkBG/QuestionMarkBG";
 import CreateQuizPage from '../CreateQuizPage/CreateQuizPage';
-import LobbyPage from '../LobbyPage/LobbyPage';
+import GamePage from '../GamePage/GamePage';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
@@ -24,7 +24,7 @@ export default function App() {
           {user && (
             <>
               <Route path="/quizzes/create" element={<CreateQuizPage />} />
-              <Route path="/lobby/:quizID" element={<LobbyPage user={user} />} />
+              <Route path="/lobby/:quizID" element={<GamePage user={user} />} />
             </>
           )}
           <Route path="/*" element={<Navigate to="/" />} />
