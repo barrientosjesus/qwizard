@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createQuiz } from "../../utilities/quiz-api";
 import CreateQuizForm from "../../components/CreateQuizForm/CreateQuizForm";
-import QuestionFormList from "../../components/QuestionFormList/QuestionFormList";
 import CreateQuestionForm from "../../components/CreateQuestionForm/CreateQuestionForm";
 
 export default function NewQuizPage() {
@@ -103,8 +102,19 @@ export default function NewQuizPage() {
         return !!quizData.questions.length;
     }
 
+    function handleDeleteQuestion(questionIndex) {
+        const updatedQuestions = [...quizData.questions];
+
+        updatedQuestions.splice(questionIndex, 1);
+
+        setQuizData((prevData) => ({
+            ...prevData,
+            questions: updatedQuestions,
+        }));
+    }
+
     return (
-        <div className="z-20 w-full grid grid-cols-12">
+        <div className="z-20 w-full h-10/12 grid grid-cols-12">
             <CreateQuizForm
                 quizData={quizData}
                 handleQuizChange={handleQuizChange}
@@ -115,8 +125,9 @@ export default function NewQuizPage() {
                 questionData={questionData}
                 handleQuestionChange={handleQuestionChange}
                 handleCreateQuestion={handleCreateQuestion}
+                questions={quizData.questions}
+                handleDeleteQuestion={handleDeleteQuestion}
             />
-            <QuestionFormList questions={quizData.questions} />
         </div>
     );
 }

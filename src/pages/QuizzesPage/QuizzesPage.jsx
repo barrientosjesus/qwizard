@@ -13,7 +13,7 @@ export default function QuizzesPage({ user }) {
     async function getQuizzes() {
       const quizzes = await getAll();
       const regex = new RegExp(`.*${filterText}.*`, 'i');
-      setQuizzes(quizzes.filter(quiz => regex.test(quiz.title) || regex.test(quiz.description)));
+      setQuizzes(quizzes.filter(quiz => regex.test(quiz.title) || regex.test(quiz.description) || regex.test(quiz.category)));
       setIsLoading(false);
     }
     if (filterText === '') {
@@ -40,17 +40,17 @@ export default function QuizzesPage({ user }) {
     <main className="z-20 w-full grid grid-cols-12">
       <QuizFilter setFilterText={setFilterText} />
       {isLoading ?
-        <div className="col-span-9 rounded-md m-3 bg-violet-500 flex flex-col items-center justify-center">
+        <div className="col-span-9 rounded-md m-3 bg-violet-500/90 flex flex-col items-center justify-center">
           <span className="loading loading-dots loading-lg text-white"></span>
         </div>
         :
-        <section className="col-span-9 rounded-md m-3 bg-violet-500 flex flex-wrap content-start">
+        <section className="col-span-9 rounded-md m-3 bg-violet-500/90 flex flex-wrap content-start justify-center">
           {quizzes.length ? quizzes.map((quiz, index) => (
             <QuizCard quiz={quiz} key={index} user={user} handleDeleteQuiz={handleDeleteQuiz} />
           ))
             :
             <div className="w-full h-full flex justify-center items-center">
-              <span className="text-white text-8xl">No Quizzes Created</span>
+              <span className="text-white text-8xl text-center">No Quizzes Available</span>
             </div>
           }
         </section>
