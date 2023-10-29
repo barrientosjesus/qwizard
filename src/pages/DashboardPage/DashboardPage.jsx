@@ -4,13 +4,13 @@ import GameList from "../../components/GameList/GameList";
 
 export default function DashboardPage({ user }) {
     const [games, setGames] = useState([]);
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {
         async function getGames() {
             const games = await getAllGames();
             setGames(games);
-            setIsLoading(false)
+            setIsLoading(false);
         }
         getGames();
     }, []);
@@ -37,18 +37,29 @@ export default function DashboardPage({ user }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {!isLoading ? games.map((game, index) => (
-                            <GameList game={game} key={index} row={index + 1} user={user} />
-                        ))
-                            :
+                        {!games.length ?
                             <tr>
-                                <th className="text-center"><span className="loading loading-dots loading-sm text-white"></span></th>
-                                <td className="text-center"><span className="loading loading-dots loading-sm text-white"></span></td>
-                                <td className="text-center"><span className="loading loading-dots loading-sm text-white"></span></td>
-                                <td className="text-center"><span className="loading loading-dots loading-sm text-white"></span></td>
-                                <td className="text-center"><span className="loading loading-dots loading-sm text-white"></span></td>
-                                <td className="text-center"><span className="loading loading-dots loading-sm text-white"></span></td>
+                                <th className="text-center text-white font-bold">-</th>
+                                <td className="text-center text-white font-bold">-</td>
+                                <td className="text-center text-white font-bold">-</td>
+                                <td className="text-center text-white font-bold">-</td>
+                                <td className="text-center text-white font-bold">-</td>
+                                <td className="text-center text-white font-bold">-</td>
                             </tr>
+                            :
+                            !isLoading ?
+                                games.map((game, index) => (
+                                    <GameList game={game} key={index} row={index + 1} user={user} />
+                                ))
+                                :
+                                <tr>
+                                    <th className="text-center"><span className="loading loading-dots loading-sm text-white"></span></th>
+                                    <td className="text-center"><span className="loading loading-dots loading-sm text-white"></span></td>
+                                    <td className="text-center"><span className="loading loading-dots loading-sm text-white"></span></td>
+                                    <td className="text-center"><span className="loading loading-dots loading-sm text-white"></span></td>
+                                    <td className="text-center"><span className="loading loading-dots loading-sm text-white"></span></td>
+                                    <td className="text-center"><span className="loading loading-dots loading-sm text-white"></span></td>
+                                </tr>
                         }
                     </tbody>
                     <tfoot>

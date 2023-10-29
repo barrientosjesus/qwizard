@@ -39,7 +39,7 @@ export default function Game({ game, quiz, handleScoreUpdate }) {
         const selectedAnswer = currentQuestion.answers[answerIndex];
 
         if (selectedAnswer.isCorrect) {
-            handleScoreUpdate(1);
+            handleScoreUpdate(timer);
         } else {
             handleScoreUpdate(0);
         }
@@ -75,7 +75,7 @@ export default function Game({ game, quiz, handleScoreUpdate }) {
                 <div className='col-span-12 flex flex-wrap mb-2'>
                     {game.players && game.players.map((p, index) => (
                         <div className="flex flex-col items-center" key={index}>
-                            <div className={p.hasAnswered && 'tooltip tooltip-open tooltip-bottom'} data-tip="Done!">
+                            <div className={p.hasAnswered ? 'tooltip tooltip-open tooltip-bottom' : undefined} data-tip="Done!">
                                 <div className="flex flex-col justify-center items-center mx-3" key={index}>
                                     <img src={`https://api.dicebear.com/7.x/bottts/svg?seed=${p.name}&radius=50&scale=100&size=32`} alt="avatar" key={index} />
                                     <span className="text-white">{p.name}</span>

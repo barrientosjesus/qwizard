@@ -121,10 +121,10 @@ function init(http) {
 
       const quiz = await Quiz.findOne({ _id: game.quiz._id });
       quiz.totalPlays += game.players.length;
-      if (!quiz.averageScore && !quiz.totalPlays) {
+      if (quiz.averageScore === 0 || !quiz.totalPlays === 0) {
         quiz.averageScore = calculateAverage(game.players);
       } else {
-        quiz.averageScore = calculateUpdatedAverage(quiz.averageScore, quiz.totalPlays, game.players);
+        quiz.averageScore = calculateAverage(game.players, quiz.totalPlays, quiz.averageScore);
       }
       quiz.highScore = updateHighScore(game.players, quiz.highScore);
       quiz.save();
@@ -155,20 +155,12 @@ function validateToken(token) {
   });
 }
 
-function calculateUpdatedAverage(previousAverage, totalPlays, newPlayerScores) {
-  const totalScores = previousAverage * totalPlays;
+function calculateAverage(newPlayerScores, totalPlays = newPlayerScores.length, previousAverage = 0) {
+  const totalScores = previousAverage * (totalPlays - newPlayerScores.length);
   const newScoresTotal = newPlayerScores.reduce((total, player) => total + player.score, 0);
   const updatedTotalScores = totalScores + newScoresTotal;
-  return Math.round(updatedTotalScores / (totalPlays + newPlayerScores.length));
-}
-
-function calculateAverage(players) {
-  if (players.length === 0) {
-    return 0;
-  }
-
-  const totalScore = players.reduce((sum, player) => sum + player.score, 0);
-  return Math.round(totalScore / players.length);
+  const updatedAverage = updatedTotalScores / totalPlays;
+  return parseFloat(updatedAverage.toFixed(1));
 }
 
 function updateHighScore(newPlayers, previousScore) {

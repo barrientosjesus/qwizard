@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 export default function QuizCard({ quiz, user, handleDeleteQuiz }) {
     const navigate = useNavigate();
 
-    const averageScore = Math.floor((quiz.averageScore / quiz.questions.length) * 100);
+    const averageScore = Math.floor((quiz.averageScore / (quiz.questions.length * 10)) * 100);
 
     function handlePlayClick() {
         if (user) {
