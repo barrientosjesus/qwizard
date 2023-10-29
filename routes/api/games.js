@@ -3,6 +3,6 @@ const router = express.Router();
 const gamesCtrl = require('../../controllers/api/games');
 const ensureLoggedIn = require('../../config/ensureLoggedIn');
 
-router.get('/', gamesCtrl.getAllForUser);
+router.get('/', ensureLoggedIn, gamesCtrl.getAllForUser);
 
 module.exports = router;
