@@ -1,11 +1,11 @@
 export default function CreateQuizForm({ quizData, handleQuizChange, handleCreateQuiz, isEmpty }) {
     return (
-        <form className="col-span-4 my-3" onSubmit={handleCreateQuiz}>
+        <form className="col-span-12 md:col-span-4 my-3" onSubmit={handleCreateQuiz}>
             <aside className="flex rounded-md flex-col shadow-lg w-auto items-center justify-center bg-violet-500 mx-2">
                 <section className="max-h-max flex flex-col items-center py-5 w-full">
                     <div className="w-3/4 max-w-full relative">
                         <input type="text" name="title" placeholder="Qwiz Title" className='placeholder:text-slate-300/50 input w-full p-3 bg-violet-500 input-bordered border-white text-white' value={quizData.title} onChange={handleQuizChange} required />
-                        <div className="absolute flex top-0 left-1/4 transform -translate-x-1/2 -translate-y-1/2">
+                        <div className="absolute flex top-0 left-12 md:left-1/4 lg:left-12 transform -translate-x-1/2 -translate-y-1/2">
                             <span className='text-white bg-violet-500'>Qwiz Title</span>
                         </div>
                     </div>
@@ -20,19 +20,19 @@ export default function CreateQuizForm({ quizData, handleQuizChange, handleCreat
                             <option value="People">People</option>
                             <option value="Misc">Misc</option>
                         </select>
-                        <div className="absolute flex top-0 left-1/4 transform -translate-x-1/2 -translate-y-1/2">
+                        <div className="absolute flex top-0 left-12 md:left-1/4 lg:left-12 transform -translate-x-1/2 -translate-y-1/2">
                             <span className='text-white bg-violet-500'>Category</span>
                         </div>
                     </div>
                     <div className="w-3/4 max-w-full relative m-3">
                         <textarea name="description" placeholder="Describe your qwiz" className="resize-none textarea textarea-bordered textarea-sm placeholder:text-slate-200/50 w-full p-3 bg-violet-500 border-white text-white" value={quizData.description} onChange={handleQuizChange} />
-                        <div className="absolute flex top-0 left-1/4 transform -translate-x-1/2 -translate-y-1/2">
+                        <div className="absolute flex top-0 left-12 md:left-1/4 lg:left-12 transform -translate-x-1/2 -translate-y-1/2">
                             <span className='text-white bg-violet-500'>Description</span>
                         </div>
                     </div>
                     <button
                         type="submit"
-                        className={`btn btn-sm bg-violet-500 my-2 ${isEmpty ? '' : 'btn-disabled'}`}
+                        className={`btn btn-sm bg-slate-100 hover:bg-violet-300 text-violet-500 my-2 ${isEmpty ? '' : 'btn-disabled'}`}
                     >
                         Create
                     </button>

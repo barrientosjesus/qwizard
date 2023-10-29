@@ -44,7 +44,7 @@ export default function QuizzesPage({ user }) {
           <span className="loading loading-dots loading-lg text-white"></span>
         </div>
         :
-        <section className="col-span-12 md:col-span-9 rounded-md m-3 bg-violet-500/90 flex flex-wrap content-start justify-center shadow-lg">
+        <section className="col-span-12 md:col-span-9 rounded-md m-3 bg-violet-500/90 flex flex-wrap content-start justify-center shadow-lg overflow-auto">
           {quizzes.length ? quizzes.map((quiz, index) => (
             <QuizCard quiz={quiz} key={index} user={user} handleDeleteQuiz={handleDeleteQuiz} />
           ))

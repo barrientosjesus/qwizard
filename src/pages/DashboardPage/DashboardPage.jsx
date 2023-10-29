@@ -4,11 +4,13 @@ import GameList from "../../components/GameList/GameList";
 
 export default function DashboardPage({ user }) {
     const [games, setGames] = useState([]);
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
         async function getGames() {
             const games = await getAllGames();
             setGames(games);
+            setIsLoading(false)
         }
         getGames();
     }, []);
@@ -16,7 +18,7 @@ export default function DashboardPage({ user }) {
     return (
         <main className="z-20 w-full grid grid-cols-12 mt-5">
             <section className="col-span-4 flex flex-col">
-                <div className="bg-violet-500 flex flex-col items-center m-3 rounded-lg">
+                <div className="bg-violet-500 flex flex-col items-center m-3 p-3 rounded-lg">
                     <img src={`https://api.dicebear.com/7.x/bottts/svg?seed=${user.name}&radius=50&scale=100&size=64`} alt="avatar" />
                     <p className="text-2xl text-white"><em>{user.name}</em></p>
                     <p className="text-lg text-white"><em>Quizzes Done: {games.length}</em></p>
@@ -35,9 +37,19 @@ export default function DashboardPage({ user }) {
                         </tr>
                     </thead>
                     <tbody>
-                        {games && games.map((game, index) => (
+                        {!isLoading ? games.map((game, index) => (
                             <GameList game={game} key={index} row={index + 1} user={user} />
-                        ))}
+                        ))
+                            :
+                            <tr>
+                                <th className="text-center"><span className="loading loading-dots loading-sm text-white"></span></th>
+                                <td className="text-center"><span className="loading loading-dots loading-sm text-white"></span></td>
+                                <td className="text-center"><span className="loading loading-dots loading-sm text-white"></span></td>
+                                <td className="text-center"><span className="loading loading-dots loading-sm text-white"></span></td>
+                                <td className="text-center"><span className="loading loading-dots loading-sm text-white"></span></td>
+                                <td className="text-center"><span className="loading loading-dots loading-sm text-white"></span></td>
+                            </tr>
+                        }
                     </tbody>
                     <tfoot>
                         <tr>
