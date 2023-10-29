@@ -13,7 +13,6 @@ export default function GamePage({ user }) {
     const quizID = useParams().quizID;
 
     useEffect(() => {
-        console.log('test')
         socket.registerSetLobby(setLobby);
         socket.registerSetGame(setGame);
         socket.joinLobby(quizID);

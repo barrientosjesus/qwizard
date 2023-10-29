@@ -121,9 +121,11 @@ function init(http) {
 
       const quiz = await Quiz.findOne({ _id: game.quiz._id });
       quiz.totalPlays += game.players.length;
-      if (!quiz.averageScore && !quiz.totalPlays) {
+      if (quiz.averageScore === 0 || !quiz.totalPlays === 0) {
+        console.log('calc avg');
         quiz.averageScore = calculateAverage(game.players);
       } else {
+        console.log('calc updated avg');
         quiz.averageScore = calculateUpdatedAverage(quiz.averageScore, quiz.totalPlays, game.players);
       }
       quiz.highScore = updateHighScore(game.players, quiz.highScore);
@@ -156,10 +158,11 @@ function validateToken(token) {
 }
 
 function calculateUpdatedAverage(previousAverage, totalPlays, newPlayerScores) {
-  const totalScores = previousAverage * totalPlays;
+  const totalScores = previousAverage * (totalPlays - newPlayerScores.length);
   const newScoresTotal = newPlayerScores.reduce((total, player) => total + player.score, 0);
   const updatedTotalScores = totalScores + newScoresTotal;
-  return Math.round(updatedTotalScores / (totalPlays + newPlayerScores.length));
+  const updatedAverage = updatedTotalScores / totalPlays;
+  return parseFloat(updatedAverage.toFixed(1));
 }
 
 function calculateAverage(players) {

@@ -10,7 +10,7 @@ export default function EndGameScreen({ game }) {
     }
 
     return (
-        <div className="h-full w-full flex flex-col items-center justify-center shadow-lg">
+        <div className="h-full w-full flex flex-col items-center justify-center">
             <div className="grid grid-cols-12 grid-rows-6 rounded-md justify-items-center h-1/2 w-1/2 bg-violet-500 shadow-md">
                 <div className="row-span-1 col-span-12 flex items-center">
                     <p className="text-5xl text-white font-bold">Game Over</p>
