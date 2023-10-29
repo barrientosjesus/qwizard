@@ -1,6 +1,6 @@
 export default function QuizFilter({ setFilterText }) {
     return (
-        <section className="col-span-3 max-h-max rounded-md m-3 bg-violet-500 shadow-lg">
+        <section className="col-span-12 md:col-span-3 max-h-max rounded-md m-3 bg-violet-500 shadow-lg">
             <h1 className="text-center text-white m-2 text-3xl">QuizFilter</h1>
             <ul className="w-full flex flex-col items-center">
                 <li className="m-3 w-full flex flex-col items-center">

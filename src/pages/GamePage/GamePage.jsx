@@ -13,6 +13,7 @@ export default function GamePage({ user }) {
     const quizID = useParams().quizID;
 
     useEffect(() => {
+        console.log('test')
         socket.registerSetLobby(setLobby);
         socket.registerSetGame(setGame);
         socket.joinLobby(quizID);
@@ -34,7 +35,7 @@ export default function GamePage({ user }) {
 
     // handle user closing window
     useEffect(() => {
-        const handleBeforeUnload = (event) => {
+        const handleBeforeUnload = () => {
             socket.leaveLobby(quizID);
         };
 

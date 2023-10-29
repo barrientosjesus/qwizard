@@ -40,11 +40,11 @@ export default function QuizzesPage({ user }) {
     <main className="z-20 w-full grid grid-cols-12">
       <QuizFilter setFilterText={setFilterText} />
       {isLoading ?
-        <div className="col-span-9 rounded-md m-3 bg-violet-500/90 flex flex-col items-center justify-center">
+        <div className="col-span-12 md:col-span-9 rounded-md m-3 bg-violet-500/90 flex flex-col items-center justify-center shadow-lg">
           <span className="loading loading-dots loading-lg text-white"></span>
         </div>
         :
-        <section className="col-span-9 rounded-md m-3 bg-violet-500/90 flex flex-wrap content-start justify-center">
+        <section className="col-span-12 md:col-span-9 rounded-md m-3 bg-violet-500/90 flex flex-wrap content-start justify-center shadow-lg">
           {quizzes.length ? quizzes.map((quiz, index) => (
             <QuizCard quiz={quiz} key={index} user={user} handleDeleteQuiz={handleDeleteQuiz} />
           ))

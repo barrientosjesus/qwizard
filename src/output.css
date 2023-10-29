@@ -2927,6 +2927,10 @@ html {
   margin: 1.25rem;
 }
 
+.m-1 {
+  margin: 0.25rem;
+}
+
 .mx-2 {
   margin-left: 0.5rem;
   margin-right: 0.5rem;
@@ -3027,11 +3031,26 @@ html {
   margin-bottom: 2.5rem;
 }
 
+.mt-\[45rem\] {
+  margin-top: 45rem;
+}
+
+.mt-2 {
+  margin-top: 0.5rem;
+}
+
 .line-clamp-3 {
   overflow: hidden;
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 3;
+}
+
+.line-clamp-6 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
 }
 
 .flex {
@@ -3068,6 +3087,10 @@ html {
 
 .h-6 {
   height: 1.5rem;
+}
+
+.h-\[32px\] {
+  height: 32px;
 }
 
 .max-h-12 {
@@ -3125,6 +3148,10 @@ html {
 
 .w-6 {
   width: 1.5rem;
+}
+
+.w-\[32px\] {
+  width: 32px;
 }
 
 .max-w-2xl {
@@ -3552,6 +3579,13 @@ body {
   background-color: rgb(139 92 246 / var(--tw-bg-opacity));
 }
 
+.hover\:line-clamp-6:hover {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 6;
+}
+
 .hover\:bg-violet-400:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(167 139 250 / var(--tw-bg-opacity));
@@ -3607,6 +3641,30 @@ body {
     left: 3rem;
   }
 
+  .md\:col-span-3 {
+    grid-column: span 3 / span 3;
+  }
+
+  .md\:col-span-9 {
+    grid-column: span 9 / span 9;
+  }
+
+  .md\:mt-0 {
+    margin-top: 0px;
+  }
+
+  .md\:h-full {
+    height: 100%;
+  }
+
+  .md\:h-\[64px\] {
+    height: 64px;
+  }
+
+  .md\:w-\[64px\] {
+    width: 64px;
+  }
+
   .md\:text-5xl {
     font-size: 3rem;
     line-height: 1;
@@ -3615,6 +3673,16 @@ body {
   .md\:text-lg {
     font-size: 1.125rem;
     line-height: 1.75rem;
+  }
+
+  .md\:text-7xl {
+    font-size: 4.5rem;
+    line-height: 1;
+  }
+
+  .md\:text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
   }
 }
 
@@ -3637,6 +3705,10 @@ body {
 
   .lg\:col-start-7 {
     grid-column-start: 7;
+  }
+
+  .lg\:m-5 {
+    margin: 1.25rem;
   }
 
   .lg\:mb-8 {
@@ -3704,9 +3776,33 @@ body {
     font-size: 1.25rem;
     line-height: 1.75rem;
   }
+
+  .lg\:text-7xl {
+    font-size: 4.5rem;
+    line-height: 1;
+  }
+
+  .lg\:text-5xl {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .lg\:text-2xl {
+    font-size: 1.5rem;
+    line-height: 2rem;
+  }
+
+  .lg\:text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+  }
 }
 
 @media (min-width: 1280px) {
+  .xl\:m-5 {
+    margin: 1.25rem;
+  }
+
   .xl\:gap-0 {
     gap: 0px;
   }
@@ -3714,5 +3810,20 @@ body {
   .xl\:text-6xl {
     font-size: 3.75rem;
     line-height: 1;
+  }
+
+  .xl\:text-7xl {
+    font-size: 4.5rem;
+    line-height: 1;
+  }
+
+  .xl\:text-5xl {
+    font-size: 3rem;
+    line-height: 1;
+  }
+
+  .xl\:text-3xl {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
   }
 }

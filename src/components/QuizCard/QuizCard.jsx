@@ -28,7 +28,9 @@ export default function QuizCard({ quiz, user, handleDeleteQuiz }) {
                     <div>Category: <strong>{quiz.category}</strong></div>
                 </section>
                 <section className="w-full flex flex-wrap">
-                    <p className="line-clamp-3">{quiz.description}</p>
+                    <div className='tooltip tooltip-hover tooltip-bottom' data-tip={quiz.description}>
+                        <p className="line-clamp-3">{quiz.description}</p>
+                    </div>
                 </section>
                 <div className="card-actions justify-center items-center">
                     <button onClick={handlePlayClick} className="btn btn-primary">Play Now!</button>

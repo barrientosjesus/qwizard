@@ -117,12 +117,7 @@ function init(http) {
       const game = await Game.findOne({ _id: gameID }).populate('quiz');
 
       if (!game) return;
-
-      game.inProgress = false;
-      await game.save();
-
-      io.to(game._id.toString()).emit('update-game', game);
-      socket.leave(game._id.toString());
+      if (!game.inProgress) return;
 
       const quiz = await Quiz.findOne({ _id: game.quiz._id });
       quiz.totalPlays += game.players.length;
@@ -133,6 +128,10 @@ function init(http) {
       }
       quiz.highScore = updateHighScore(game.players, quiz.highScore);
       quiz.save();
+      game.inProgress = false;
+      await game.save();
+      io.to(game._id.toString()).emit('update-game', game);
+      socket.leave(game._id.toString());
     });
   });
 }

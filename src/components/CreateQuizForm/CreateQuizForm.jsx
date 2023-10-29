@@ -1,5 +1,4 @@
 export default function CreateQuizForm({ quizData, handleQuizChange, handleCreateQuiz, isEmpty }) {
-    console.log(isEmpty);
     return (
         <form className="col-span-4 my-3" onSubmit={handleCreateQuiz}>
             <aside className="flex rounded-md flex-col shadow-lg w-auto items-center justify-center bg-violet-500 mx-2">
