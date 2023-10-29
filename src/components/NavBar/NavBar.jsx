@@ -45,7 +45,7 @@ export default function NavBar({ user, setUser }) {
                   Create Quiz
                 </Link>
               </li>
-              <li><Link aria-disabled='true'>My Quizzes</Link></li>
+              <li><Link to="/dashboard">Dashboard</Link></li>
               <li><span onClick={handleLogOut}>Logout</span></li>
             </ul>
           </div>

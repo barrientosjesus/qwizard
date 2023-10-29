@@ -30,6 +30,7 @@ require('./io').init(http);
 // Put API routes here, before the "catch all" route
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/quizzes', require('./routes/api/quizzes'));
+app.use('/api/games', require('./routes/api/games'))
 
 // The following "catch all" route (note the *) is necessary
 // to return the index.html on all non-AJAX/API requests
