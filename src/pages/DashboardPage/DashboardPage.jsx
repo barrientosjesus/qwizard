@@ -18,14 +18,14 @@ export default function DashboardPage({ user }) {
     return (
         <main className="z-20 w-full grid grid-cols-12 mt-5">
             <section className="col-span-4 flex flex-col">
-                <div className="bg-violet-500 flex flex-col items-center m-3 p-3 rounded-lg">
+                <div className="bg-violet-500 flex flex-col items-center m-3 p-3 rounded-lg shadow-lg">
                     <img src={`https://api.dicebear.com/7.x/bottts/svg?seed=${user.name}&radius=50&scale=100&size=64`} alt="avatar" />
                     <p className="text-2xl text-white"><em>{user.name}</em></p>
                     <p className="text-lg text-white"><em>Quizzes Done: {games.length}</em></p>
                 </div>
             </section>
             <section className="flex flex-col col-span-8 overflow-x-auto my-3">
-                <table className="table table-xs bg-violet-500 text-white">
+                <table className="table table-xs bg-violet-500 text-white shadow-lg">
                     <thead>
                         <tr>
                             <th className="text-center text-white"></th>

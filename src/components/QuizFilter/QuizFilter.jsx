@@ -2,7 +2,7 @@ export default function QuizFilter({ setFilterText }) {
     return (
         <section className="col-span-12 md:col-span-3 max-h-max">
             <div className="rounded-md m-3 py-5 bg-violet-500 shadow-lg">
-            <h1 className="text-center text-white m-2 text-3xl">QuizFilter</h1>
+            <h1 className="text-center text-white m-2 text-3xl font-bold">Filters</h1>
             <ul className="w-full flex flex-col items-center">
                 <li className="m-3 w-full flex flex-col items-center">
                     <div className="relative w-11/12">

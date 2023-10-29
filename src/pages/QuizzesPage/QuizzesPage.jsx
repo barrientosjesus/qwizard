@@ -13,7 +13,12 @@ export default function QuizzesPage({ user }) {
     async function getQuizzes() {
       const quizzes = await getAll();
       const regex = new RegExp(`.*${filterText}.*`, 'i');
-      setQuizzes(quizzes.filter(quiz => regex.test(quiz.title) || regex.test(quiz.description) || regex.test(quiz.category)));
+      setQuizzes(quizzes.filter(quiz =>
+        regex.test(quiz.title) ||
+        regex.test(quiz.description) ||
+        regex.test(quiz.category) ||
+        regex.test(quiz.user.name)
+      ));
       setIsLoading(false);
     }
     if (filterText === '') {
