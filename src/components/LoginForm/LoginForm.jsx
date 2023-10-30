@@ -40,7 +40,7 @@ export default function LoginForm({ setUser }) {
     <>
       <div className="hidden lg:mt-0 md:col-span-5 md:flex max-h-[520px] justify-center items-center">
         {showSignUp ?
-          <img src={`https://api.dicebear.com/7.x/bottts/svg?seed=${credentials.name}&radius=50`} className='bg-violet-500/80 rounded-full' alt="avatar" />
+          <img src={`https://api.dicebear.com/7.x/bottts/svg?seed=${credentials.name}&radius=50&scale=64`} className='bg-violet-500/80 rounded-full' alt="avatar" />
           :
           <img src="https://i.imgur.com/NqXoaX6.png" alt="mockup" />
         }
