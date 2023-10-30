@@ -1,6 +1,6 @@
 <div id="header" align="center">
 
-  <img src="https://i.imgur.com/NqXoaX6.png" width="800" alt="battleship game logo"  style="max-height: 200px; object-fit: cover;">
+  <img src="https://i.imgur.com/NqXoaX6.png" width="400" alt="battleship game logo"  style="max-height: 200px; object-fit: cover;">
 
 </div>
 
