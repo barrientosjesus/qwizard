@@ -58,8 +58,8 @@ export default function Game({ game, quiz, handleScoreUpdate }) {
     const currentQuestionIndex = game.currentQuestionIndex;
 
     return (
-        <div className="h-full w-full flex flex-col items-center justify-center mt-5 shadow-lg">
-            <div className="grid grid-cols-12 grid-rows-7 rounded-md justify-items-center max-h-max max-w-max bg-violet-500 shadow-md">
+        <div className="h-full w-full flex flex-col items-center justify-center mt-5">
+            <div className="grid grid-cols-12 grid-rows-7 rounded-md justify-items-center max-h-max max-w-max bg-violet-500 shadow-lg">
                 <div className="radial-progress bg-slate-100 col-span-12 mt-2 text-violet-500 border-2 border-white font-bold" style={{ "--value": Math.floor((timer / 10) * 100) }}>{timer}</div>
                 <div className='col-span-12 rounded-md p-5 m-2 w-11/12 flex items-center justify-center text-white text-2xl lg:text-3xl xl:text-7xl'>{quiz.questions[currentQuestionIndex].question}</div>
                 {quiz.questions[currentQuestionIndex].answers.map((answer, index) => (
