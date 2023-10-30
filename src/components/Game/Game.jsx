@@ -15,11 +15,13 @@ export default function Game({ game, quiz, handleScoreUpdate }) {
     useEffect(() => {
         if (timer > 0 && !answered) {
             intervalRef.current = setInterval(() => {
-                setTimer((prevTimer) => prevTimer - 1);
-            }, 1000);
+                setTimer((prevTimer) => {
+                    return parseFloat((prevTimer - 0.01).toFixed(2));
+                });
+            }, 10);
         }
 
-        if (timer === 0 && !answered) {
+        if (timer <= 0 && !answered) {
             setAnswered(true);
             handleScoreUpdate(0);
         }
@@ -27,7 +29,6 @@ export default function Game({ game, quiz, handleScoreUpdate }) {
         return () => {
             clearInterval(intervalRef.current);
         };
-
     }, [timer, answered]);
 
     function handleAnswerClick(answerIndex) {
@@ -39,7 +40,7 @@ export default function Game({ game, quiz, handleScoreUpdate }) {
         const selectedAnswer = currentQuestion.answers[answerIndex];
 
         if (selectedAnswer.isCorrect) {
-            handleScoreUpdate(timer);
+            handleScoreUpdate(timer.toFixed(2));
         } else {
             handleScoreUpdate(0);
         }

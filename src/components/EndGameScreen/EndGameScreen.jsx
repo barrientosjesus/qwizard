@@ -2,7 +2,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function EndGameScreen({ game }) {
     const navigate = useNavigate();
-    const sortedPlayers = game.players.sort((playerA, playerB) => playerB.score - playerA.score);
+    const sortedPlayers = game.players.sort((playerA, playerB) => playerB.totalScore - playerA.totalScore);
 
     function handleClick(evt) {
         evt.preventDefault();
@@ -18,7 +18,7 @@ export default function EndGameScreen({ game }) {
                 <div className="col-span-12 row-span-4 flex flex-wrap items-center">
                     {sortedPlayers && sortedPlayers.map((p, index) => (
                         <div className="flex flex-col items-center" key={index}>
-                            <span className="text-3xl text-white">{p.score}</span>
+                            <span className="text-3xl text-white">{p.totalScore}</span>
                             <div className="flex flex-col justify-center items-center mx-3" key={index}>
                                 <img src={`https://api.dicebear.com/7.x/bottts/svg?seed=${p.name}&radius=50&scale=100`} className='h-[32px] w-[32px] md:h-[64px] md:w-[64px]' alt="avatar" key={index} />
                                 <span className="text-white">{p.name}</span>
