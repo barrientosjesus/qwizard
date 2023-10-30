@@ -7,7 +7,7 @@ export default function GameList({ game, row, user }) {
             <th className="text-center">{row}</th>
             <td className="text-center">{sortedPlayers[0].name}</td>
             <td className="text-center">{game.quiz.title}</td>
-            <td className="text-center">{game.quiz.highScore.playerName}: {game.quiz.highScore.totalScore}</td>
+            <td className="text-center">{game.quiz.highScore.playerName}: {game.quiz.highScore.score}</td>
             <td className="text-center">{myScore}</td>
             <td className="text-center">{game.players.length}</td>
         </tr>
