@@ -25,7 +25,7 @@ async function getAll(req, res) {
 
 async function getOne(req, res) {
     try {
-        const quiz = await Quiz.findOne({ _id: req.params.id });
+        const quiz = await Quiz.findOne({ _id: req.params.id }).populate('user', 'name');
         res.json(quiz);
     } catch (err) {
         console.error(err);

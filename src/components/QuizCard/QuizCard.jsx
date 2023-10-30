@@ -14,6 +14,10 @@ export default function QuizCard({ quiz, user, handleDeleteQuiz }) {
         }
     }
 
+    function handleDetailsClick() {
+        navigate(`/quiz/detail/${quiz._id}`)
+    }
+
     return (
         <div className="card w-80 h-auto bg-base-100 shadow-xl m-5">
             <div className="card-body grid grid-rows-4">
@@ -34,6 +38,7 @@ export default function QuizCard({ quiz, user, handleDeleteQuiz }) {
                 </section>
                 <div className="card-actions justify-center items-center">
                     <button onClick={handlePlayClick} className="btn btn-primary">Play Now!</button>
+                    <button onClick={handleDetailsClick} className="btn btn-secondary">Details</button>
                     {user && user._id === quiz.user._id &&
                         <button onClick={() => handleDeleteQuiz(quiz._id)} className="btn btn-error">Delete</button>
                     }

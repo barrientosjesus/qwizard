@@ -1,7 +1,8 @@
 const Game = require("../../models/game.js");
 
 module.exports = {
-    getAllForUser
+    getAllForUser,
+    getAllForQuiz
 };
 
 async function getAllForUser(req, res) {
@@ -11,6 +12,13 @@ async function getAllForUser(req, res) {
                 'userID': req.user._id
             }
         }
+    }).populate('quiz').populate('players');
+    res.json(games);
+}
+
+async function getAllForQuiz(req, res) {
+    const games = await Game.find({
+        quiz: req.params.quizID
     }).populate('quiz').populate('players');
     res.json(games);
 }

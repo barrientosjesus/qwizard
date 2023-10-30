@@ -63,5 +63,5 @@ A versatile quiz and trivia application to see which of your friends is the best
 
 - [ ] Restructure UI
 - [ ] Add additional quiz type options(multiple choice, written answers, etc)
-- [ ] Restructure model to track each question score instead of overall
+- [X] Restructure model to track each question score instead of overall
 - [ ] Track additional stats per user

@@ -9,6 +9,7 @@ import QuestionMarkBG from "../../components/QuestionMarkBG/QuestionMarkBG";
 import CreateQuizPage from '../CreateQuizPage/CreateQuizPage';
 import GamePage from '../GamePage/GamePage';
 import DashboardPage from '../DashboardPage/DashboardPage';
+import QuizDetailPage from '../QuizDetailPage/QuizDetailPage';
 
 export default function App() {
   const [user, setUser] = useState(getUser());
@@ -21,6 +22,7 @@ export default function App() {
         <Routes>
           <Route path="/" element={<LandingPage user={user} />} />
           <Route path="/quizzes" element={<QuizzesPage user={user} />} />
+          <Route path="/quiz/detail/:quizID" element={<QuizDetailPage user={user} />} />
           <Route path="/login" element={<AuthPage setUser={setUser} />} />
           {user && (
             <>

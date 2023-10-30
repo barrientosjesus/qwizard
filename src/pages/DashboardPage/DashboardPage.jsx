@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getAllGames } from '../../utilities/game-api';
+import { getAllGamesForUser } from '../../utilities/game-api';
 import GameList from "../../components/GameList/GameList";
 
 export default function DashboardPage({ user }) {
@@ -8,7 +8,7 @@ export default function DashboardPage({ user }) {
 
     useEffect(() => {
         async function getGames() {
-            const games = await getAllGames();
+            const games = await getAllGamesForUser();
             setGames(games);
             setIsLoading(false);
         }
