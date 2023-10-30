@@ -81,7 +81,7 @@ function init(http) {
       if (!user) return;
       const game = await Game.findOne({ _id: gameID });
       const player = game.players.find(p => p.userID.equals(user._id));
-      player.score += score;
+      player.score.push(score);
       player.hasAnswered = true;
       await game.save();
 
@@ -157,16 +157,16 @@ function validateToken(token) {
 
 function calculateAverage(newPlayerScores, totalPlays = newPlayerScores.length, previousAverage = 0) {
   const totalScores = previousAverage * (totalPlays - newPlayerScores.length);
-  const newScoresTotal = newPlayerScores.reduce((total, player) => total + player.score, 0);
+  const newScoresTotal = newPlayerScores.reduce((total, player) => total + player.totalScore, 0);
   const updatedTotalScores = totalScores + newScoresTotal;
   const updatedAverage = updatedTotalScores / totalPlays;
-  return parseFloat(updatedAverage.toFixed(1));
+  return parseFloat(updatedAverage.toFixed(2));
 }
 
 function updateHighScore(newPlayers, previousScore) {
   let newScore = previousScore;
   newPlayers.forEach(p => {
-    newScore = p.score > newScore.score ? { playerName: p.name, score: p.score } : newScore;
+    newScore = p.totalScore > newScore.score ? { playerName: p.name, score: p.totalScore } : newScore;
   });
   return newScore;
 }

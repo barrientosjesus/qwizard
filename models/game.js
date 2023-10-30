@@ -4,18 +4,17 @@ const Schema = mongoose.Schema;
 const playerSchema = new Schema({
     name: String,
     userID: {
-        type: mongoose.SchemaTypes.ObjectId, 
+        type: mongoose.SchemaTypes.ObjectId,
         ref: 'User',
         required: true
     },
-    score: {
-        type: Number,
-        default: 0
-    },
+    score: [Number],
     hasAnswered: {
         type: Boolean,
         default: false
     }
+}, {
+    toJSON: { virtuals: true }
 });
 
 const gameSchema = new Schema({
@@ -34,7 +33,12 @@ const gameSchema = new Schema({
         default: true
     }
 }, {
-    timestamps: true
+    timestamps: true,
+    toJSON: { virtuals: true }
+});
+
+playerSchema.virtual('totalScore').get(function () {
+    return this.score.reduce((acc, num) => acc + num, 0).toFixed(2);
 });
 
 gameSchema.statics.getActiveForUser = function (user) {
