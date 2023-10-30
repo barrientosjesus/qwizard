@@ -7,7 +7,7 @@ export default function NavBar({ user, setUser }) {
   function handleLogOut() {
     userService.logOut();
     setUser(null);
-    navigate('/')
+    navigate('/');
   }
 
   return (
@@ -18,7 +18,7 @@ export default function NavBar({ user, setUser }) {
         </label>
         <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52">
           <li><Link to="/quizzes">Quizzes</Link></li>
-          {user && <li><Link to="/quizzes/create">Create Qwiz</Link></li> }
+          {user && <li><Link to="/quizzes/create">Create Qwiz</Link></li>}
         </ul>
       </div>
       <div className="flex-1">
@@ -28,7 +28,7 @@ export default function NavBar({ user, setUser }) {
       <div className="navbar-center hidden lg:flex">
         <ul className="menu menu-horizontal px-1">
           <li><Link to="/quizzes" className='font-bold text-white hover:text-gray-300'>Qwizzes</Link></li>
-          {user && <li><Link to="/quizzes/create" className='font-bold text-white hover:text-gray-300'>Create Qwiz</Link></li> }
+          {user && <li><Link to="/quizzes/create" className='font-bold text-white hover:text-gray-300'>Create Qwiz</Link></li>}
         </ul>
       </div>
       {user &&
