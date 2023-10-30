@@ -30,7 +30,7 @@ require('./io').init(http);
 // Put API routes here, before the "catch all" route
 app.use('/api/users', require('./routes/api/users'));
 app.use('/api/quizzes', require('./routes/api/quizzes'));
-app.use('/api/games', require('./routes/api/games'))
+app.use('/api/games', require('./routes/api/games'));
 
 // The following "catch all" route (note the *) is necessary
 // to return the index.html on all non-AJAX/API requests
@@ -38,6 +38,6 @@ app.get('/*', function (req, res) {
   res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
-http.listen(port, function (){
+http.listen(port, function () {
   console.log(`Express app running on port ${port}`);
 });

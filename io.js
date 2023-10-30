@@ -129,6 +129,7 @@ function init(http) {
       quiz.highScore = updateHighScore(game.players, quiz.highScore);
       quiz.save();
       game.inProgress = false;
+      game.players.forEach(p => p.score.shift())
       await game.save();
       io.to(game._id.toString()).emit('update-game', game);
       socket.leave(game._id.toString());
@@ -158,7 +159,7 @@ function validateToken(token) {
 function calculateAverage(newPlayerScores, totalPlays = newPlayerScores.length, previousAverage = 0) {
   const totalScores = previousAverage * (totalPlays - newPlayerScores.length);
   const newScoresTotal = newPlayerScores.reduce((total, player) => total + player.totalScore, 0);
-  const updatedTotalScores = totalScores + newScoresTotal;
+  const updatedTotalScores = totalScores + parseInt(newScoresTotal);
   const updatedAverage = updatedTotalScores / totalPlays;
   return parseFloat(updatedAverage.toFixed(2));
 }

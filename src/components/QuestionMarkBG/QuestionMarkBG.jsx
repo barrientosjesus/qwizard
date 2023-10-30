@@ -15,6 +15,16 @@ export default function QuestionMarkBG() {
                 <li className="font-bold qm-bg text-9xl">?</li>
                 <li className="font-bold qm-bg text-9xl">?</li>
                 <li className="font-bold qm-bg text-9xl">?</li>
+                <li className="font-bold qm-bg text-9xl">?</li>
+                <li className="font-bold qm-bg text-9xl">?</li>
+                <li className="font-bold qm-bg text-9xl">?</li>
+                <li className="font-bold qm-bg text-9xl">?</li>
+                <li className="font-bold qm-bg text-9xl">?</li>
+                <li className="font-bold qm-bg text-9xl">?</li>
+                <li className="font-bold qm-bg text-9xl">?</li>
+                <li className="font-bold qm-bg text-9xl">?</li>
+                <li className="font-bold qm-bg text-9xl">?</li>
+                <li className="font-bold qm-bg text-9xl">?</li>
             </ul>
         </div >
     );
