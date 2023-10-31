@@ -35,9 +35,7 @@ async function getOne(req, res) {
 
 async function deleteOne(req, res) {
     try {
-        console.log("Before deleting quiz");
         await Quiz.deleteOne({ _id: req.params.id, user: req.user._id });
-        console.log("After deleting quiz");
         res.json(null);
     } catch (err) {
         console.log(err);
