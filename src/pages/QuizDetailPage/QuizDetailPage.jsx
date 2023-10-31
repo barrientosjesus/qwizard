@@ -62,7 +62,7 @@ export default function QuizDetailPage() {
                                         <tr className='grid grid-cols-3 justify-items-center items-center' key={index}>
                                             <td><img src={`https://api.dicebear.com/7.x/bottts/svg?seed=${player.name}&radius=50&scale=100&size=24`} alt="avatar" /></td>
                                             <td className="text-center text-white">{player.name}</td>
-                                            <td className="text-center text-white">{player.score.reduce((acc, val) => acc + val, 0)}</td>
+                                            <td className="text-center text-white">{player.score.reduce((acc, val) => acc + val, 0).toFixed(2)}</td>
                                         </tr>
                                     ))}
                                 </tbody>

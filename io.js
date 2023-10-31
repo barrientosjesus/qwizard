@@ -6,6 +6,7 @@ let io;
 
 const games = {};
 const lobbies = {};
+let isSaving = false;
 
 module.exports = {
   init,
@@ -114,25 +115,32 @@ function init(http) {
     });
 
     socket.on('end-game', async function (gameID) {
-      const game = await Game.findOne({ _id: gameID }).populate('quiz');
+      try {
+        const game = await Game.findOne({ _id: gameID }).populate('quiz');
 
-      if (!game) return;
-      if (!game.inProgress) return;
+        if (!game) return;
+        if (!game.inProgress) return;
 
-      const quiz = await Quiz.findOne({ _id: game.quiz._id });
-      quiz.totalPlays += game.players.length;
-      if (quiz.averageScore === 0 || !quiz.totalPlays === 0) {
-        quiz.averageScore = calculateAverage(game.players);
-      } else {
-        quiz.averageScore = calculateAverage(game.players, quiz.totalPlays, quiz.averageScore);
+        const quiz = await Quiz.findOne({ _id: game.quiz._id });
+        quiz.totalPlays += game.players.length;
+        if (quiz.averageScore === 0 || !quiz.totalPlays === 0) {
+          quiz.averageScore = calculateAverage(game.players);
+        } else {
+          quiz.averageScore = calculateAverage(game.players, quiz.totalPlays, quiz.averageScore);
+        }
+        quiz.highScore = updateHighScore(game.players, quiz.highScore);
+        if(isSaving) return;
+        isSaving = true;
+        await quiz.save();
+        game.inProgress = false;
+        game.players.forEach(p => p.score.shift());
+        await game.save();
+        io.to(game._id.toString()).emit('update-game', game);
+        socket.leave(game._id.toString());
+        isSaving = false;
+      } catch (error) {
+        console.error('Error: ', error);
       }
-      quiz.highScore = updateHighScore(game.players, quiz.highScore);
-      quiz.save();
-      game.inProgress = false;
-      game.players.forEach(p => p.score.shift())
-      await game.save();
-      io.to(game._id.toString()).emit('update-game', game);
-      socket.leave(game._id.toString());
     });
   });
 }
