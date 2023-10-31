@@ -12,6 +12,10 @@ const playerSchema = new Schema({
     hasAnswered: {
         type: Boolean,
         default: false
+    },
+    leftGame: {
+        type: Boolean,
+        default: false
     }
 }, {
     toJSON: { virtuals: true }

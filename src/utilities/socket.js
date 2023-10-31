@@ -20,13 +20,13 @@ socket.on('update-game', function (game) {
     setGame(game);
 });
 
-socket.on('next-question', function({ gameID, quizID }) {
-    socket.emit('next-question', { gameID, quizID })
-})
+socket.on('next-question', function ({ gameID, quizID }) {
+    socket.emit('next-question', { gameID, quizID });
+});
 
-socket.on('end-game', function(gameID) {
-    socket.emit('end-game', gameID)
-})
+socket.on('end-game', function (gameID) {
+    socket.emit('end-game', gameID);
+});
 
 export function sendMessage(quizID, user, question) {
     socket.emit('sendMessage', { quizID, user, question });
@@ -38,6 +38,13 @@ export function getActive() {
 
 export function newGame(quizID) {
     socket.emit('newGame', quizID);
+}
+
+export function leaveGame(quizID, gameID) {
+    socket.emit('leave-game', {
+        token: getToken(),
+        quizID
+    });
 }
 
 export function joinLobby(quizID) {
@@ -59,7 +66,7 @@ export function updateScore(score, gameID) {
         token: getToken(),
         gameID,
         score
-    })
+    });
 }
 
 export function nextQuestion(gameID, quizID, gameIndex) {
@@ -67,5 +74,5 @@ export function nextQuestion(gameID, quizID, gameIndex) {
         gameID,
         quizID,
         gameIndex
-    })
+    });
 }

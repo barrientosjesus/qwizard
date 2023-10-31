@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getOne } from "../../utilities/quiz-api";
 import Lobby from "../../components/Lobby/Lobby";
 import Game from "../../components/Game/Game";
@@ -11,6 +11,7 @@ export default function GamePage({ user }) {
     const [lobby, setLobby] = useState(null);
     const [game, setGame] = useState(null);
     const quizID = useParams().quizID;
+    const navigate = useNavigate();
 
     useEffect(() => {
         socket.registerSetLobby(setLobby);
@@ -21,6 +22,7 @@ export default function GamePage({ user }) {
             setQuiz(cacheQuiz);
         }
         getQuiz();
+
         if (user) socket.getActive();
     }, [user, quizID]);
 
@@ -28,6 +30,7 @@ export default function GamePage({ user }) {
     useEffect(() => {
         return () => {
             socket.leaveLobby(quizID);
+            socket.leaveGame(quizID);
         };
 
     }, []);
@@ -36,6 +39,7 @@ export default function GamePage({ user }) {
     useEffect(() => {
         const handleBeforeUnload = () => {
             socket.leaveLobby(quizID);
+            socket.leaveGame(quizID);
         };
 
         window.addEventListener('beforeunload', handleBeforeUnload);
@@ -54,13 +58,13 @@ export default function GamePage({ user }) {
         socket.updateScore(score, game._id);
     }
 
-    if (game?.inProgress) {
+    if (game?.inProgress && game.players.some(p => p.userID === user._id)) {
         return <Game
             game={game}
             quiz={quiz}
             handleScoreUpdate={handleScoreUpdate}
         />;
-    } else if (!game?.inProgress && game?.currentQuestionIndex + 1 === quiz?.questions.length) {
+    } else if (!game?.inProgress && game?.currentQuestionIndex + 1 === quiz?.questions.length && game?.players.some(p => p.userID === user._id)) {
         return <EndGameScreen game={game} />;
     } else {
         return <Lobby quiz={quiz} lobby={lobby} user={user} handleSubmit={handleSubmit} />;
