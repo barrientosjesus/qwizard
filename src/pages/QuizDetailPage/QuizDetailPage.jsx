@@ -3,12 +3,15 @@ import { useParams } from 'react-router-dom';
 import { getOne } from "../../utilities/quiz-api";
 import { getAllGamesForQuiz } from "../../utilities/game-api";
 import GameDetailList from '../../components/GameDetailList/GameDetailList';
+import QuizDetailForGame from '../../components/QuizDetailForUser/QuizDetailForGame';
+import QuizDetailForUser from '../../components/QuizDetailForUser/QuizDetailForUser';
 
 export default function QuizDetailPage() {
     const [quiz, setQuiz] = useState(null);
     const [games, setGames] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [selectedGame, setSelectedGame] = useState(null);
+    const [selectedUser, setSelectedUser] = useState(null);
     const quizID = useParams().quizID;
     const averageScore = useRef(0);
 
@@ -33,6 +36,10 @@ export default function QuizDetailPage() {
         setSelectedGame(game);
     }
 
+    function handleUserSelect(user) {
+        setSelectedUser(user);
+    }
+
     return (
         <>
             {quiz &&
@@ -48,33 +55,8 @@ export default function QuizDetailPage() {
                             <span className="text-white">High Score: {quiz.highScore.playerName}</span>
                             <div className="text-white">Category: <strong>{quiz.category}</strong></div>
                         </div>
-                        {selectedGame &&
-                            <table className="table table-xs bg-violet-500 grid grid-cols-3 items-center place-self-center w-1/2 p-3 shadow-lg">
-                                <thead className='col-span-3'>
-                                    <tr className='grid grid-cols-3'>
-                                        <th></th>
-                                        <th className="text-center text-white">Player</th>
-                                        <th className="text-center text-white">Score</th>
-                                    </tr>
-                                </thead>
-                                <tbody className='col-span-3'>
-                                    {selectedGame.players.map((player, index) => (
-                                        <tr className='grid grid-cols-3 justify-items-center items-center' key={index}>
-                                            <td><img src={`https://api.dicebear.com/7.x/bottts/svg?seed=${player.name}&radius=50&scale=100&size=24`} alt="avatar" /></td>
-                                            <td className="text-center text-white">{player.name}</td>
-                                            <td className="text-center text-white">{player.score.reduce((acc, val) => acc + val, 0).toFixed(2)}</td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                                <tfoot className='col-span-3'>
-                                    <tr className='grid grid-cols-3'>
-                                        <th></th>
-                                        <th className="text-center text-white">Player</th>
-                                        <th className="text-center text-white">Score</th>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        }
+                        {selectedGame && <QuizDetailForGame selectedGame={selectedGame} handleUserSelect={handleUserSelect} />}
+                        {selectedUser && <QuizDetailForUser selectedUser={selectedUser} />}
                     </section>
                     <section className="flex flex-col col-span-12 md:col-span-8 my-3">
                         <p className='text-violet-500 font-bold text-5xl text-center drop-shadow-md'>{quiz.title}</p>
