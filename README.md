@@ -9,6 +9,7 @@
 # Qwizard
 **Created by [Jesus Barrientos](https://www.linkedin.com/in/barrientosjesus/)**
 #### [GO TO SITE](https://qwizard-app-ce9f2a48ce09.herokuapp.com/) 
+#### [Trello](https://trello.com/b/qkO93bOd/qwizard)
 
 </div>
 
