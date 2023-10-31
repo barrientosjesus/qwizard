@@ -1,6 +1,6 @@
 export default function QuizDetailForGame({ selectedGame, handleUserSelect }) {
     return (
-        <table className="table table-xs bg-violet-500 grid grid-cols-3 items-center place-self-center w-1/2 p-3 shadow-lg">
+        <table className="table table-xs bg-violet-500 grid grid-cols-3 items-center place-self-center w-1/2 p-3 mx-2 md:m-0 shadow-lg">
             <thead className='col-span-3'>
                 <tr className='grid grid-cols-3'>
                     <th></th>

@@ -1,6 +1,6 @@
 export default function QuizDetailForUser({ selectedUser }) {
     return (
-        <table className="table table-xs bg-violet-500 grid grid-cols-2 items-center place-self-center w-1/2 p-3 mt-3 shadow-lg">
+        <table className="table table-xs bg-violet-500 grid grid-cols-2 items-center content-center place-self-center w-1/2 p-3 h-full m-0 md:max-h-max md:mt-3 shadow-lg">
             <thead className='col-span-2'>
                 <tr className='grid grid-cols-2 items-center'>
                     <th>

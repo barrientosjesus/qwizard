@@ -34,6 +34,7 @@ export default function QuizDetailPage() {
 
     function handleSelectedGame(game) {
         setSelectedGame(game);
+        setSelectedUser(null);
     }
 
     function handleUserSelect(user) {
@@ -55,8 +56,10 @@ export default function QuizDetailPage() {
                             <span className="text-white">High Score: {quiz.highScore.playerName}</span>
                             <div className="text-white">Category: <strong>{quiz.category}</strong></div>
                         </div>
-                        {selectedGame && <QuizDetailForGame selectedGame={selectedGame} handleUserSelect={handleUserSelect} />}
-                        {selectedUser && <QuizDetailForUser selectedUser={selectedUser} />}
+                        <div className='flex md:flex-col items-center'>
+                            {selectedGame && <QuizDetailForGame selectedGame={selectedGame} handleUserSelect={handleUserSelect} />}
+                            {selectedUser && <QuizDetailForUser selectedUser={selectedUser} />}
+                        </div>
                     </section>
                     <section className="flex flex-col col-span-12 md:col-span-8 my-3">
                         <p className='text-violet-500 font-bold text-5xl text-center drop-shadow-md'>{quiz.title}</p>
